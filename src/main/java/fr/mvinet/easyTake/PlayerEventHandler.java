@@ -4,19 +4,21 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.List;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.Style;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class PlayerEventHandler {
 
 	@SubscribeEvent
 	public void onEntityJoin(EntityJoinWorldEvent e)
 	{
-		if(e.entity instanceof EntityPlayer)
+		if(e.getEntity() instanceof EntityPlayer)
 		{
 			try 
 			{
@@ -26,13 +28,15 @@ public class PlayerEventHandler {
 				String urlv = txt.readLine();
 				if(!EasyTake.VERSION.equalsIgnoreCase(urlv))
 				{
-					Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("A new release of Ushare " + urlv + " is now available on http://usqua.re"));	
+					//Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("A new release of Ushare " + urlv + " is now available on http://usqua.re"));	
+					//Minecraft.getMinecraft().thePlayer.sendChatMessage("A new release of Ushare " + urlv + " is now available on http://usqua.re");
+					
 				}
 
 			} 
 			catch (Exception e2) 
 			{
-		//		Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("A new release of Ushare is now available on http://usqua.re"));	
+				//Minecraft.getMinecraft().thePlayer.sendChatMessage("A new release of Ushare is now available on http://usqua.re");
 			}
 		}
 	}

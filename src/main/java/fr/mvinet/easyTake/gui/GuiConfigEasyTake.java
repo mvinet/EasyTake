@@ -3,23 +3,17 @@ package fr.mvinet.easyTake.gui;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.lwjgl.Sys;
-
-import com.ibm.icu.util.ULocale.Category;
-import com.typesafe.config.Config;
-
+import fr.mvinet.easyTake.EasyTake;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.common.config.ConfigCategory;
-import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.common.config.Configuration;
-import cpw.mods.fml.client.config.ConfigGuiType;
-import cpw.mods.fml.client.config.DummyConfigElement;
-import cpw.mods.fml.client.config.GuiConfig;
-import cpw.mods.fml.client.config.IConfigElement;
-import cpw.mods.fml.client.config.GuiConfigEntries.CycleValueEntry;
-import cpw.mods.fml.client.config.GuiConfigEntries.NumberSliderEntry;
-import fr.mvinet.easyTake.EasyTake;
+import net.minecraftforge.fml.client.config.ConfigGuiType;
+import net.minecraftforge.fml.client.config.DummyConfigElement;
+import net.minecraftforge.fml.client.config.GuiConfig;
+import net.minecraftforge.fml.client.config.GuiConfigEntries.CycleValueEntry;
+import net.minecraftforge.fml.client.config.GuiConfigEntries.NumberSliderEntry;
+import net.minecraftforge.fml.client.config.IConfigElement;
 
 public class GuiConfigEasyTake extends GuiConfig
 {
@@ -38,9 +32,9 @@ public class GuiConfigEasyTake extends GuiConfig
 		String color = EasyTake.config.getCategory(Configuration.CATEGORY_GENERAL).get("colorFilter").getString();
 		Integer transparency = EasyTake.config.getCategory(Configuration.CATEGORY_GENERAL).get("transparency").getInt();
 
-		list.add(new DummyConfigElement<String>("colorFilter", color, ConfigGuiType.STRING, "fr.mvinet.easyTake.EasyTake.config", new String[] { "none", "red",
+		list.add(new DummyConfigElement("colorFilter", color, ConfigGuiType.STRING, "fr.mvinet.easyTake.EasyTake.config", new String[] { "none", "red",
 				"blue" }));
-		list.add(new DummyConfigElement<Integer>("transparency", transparency, ConfigGuiType.INTEGER, "", 0, 100).setCustomListEntryClass(NumberSliderEntry.class));
+		list.add(new DummyConfigElement("transparency", transparency, ConfigGuiType.INTEGER, "", 0, 100).setCustomListEntryClass(NumberSliderEntry.class));
 
 		String colorDefault = EasyTake.config.getCategory(Configuration.CATEGORY_GENERAL).get("colorFilter").getDefault();
 		Integer transparencyDefault = Integer.parseInt(EasyTake.config.getCategory(Configuration.CATEGORY_GENERAL).get("transparency").getDefault());
