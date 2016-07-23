@@ -3,6 +3,7 @@ package fr.mvinet.easyTake.gui;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.mvinet.easyTake.Constante;
 import fr.mvinet.easyTake.EasyTake;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -22,7 +23,7 @@ public class GuiConfigEasyTake extends GuiConfig
 		super(screen,
 		// new
 		// ConfigElement(EasyTake.config.getCategory(Configuration.CATEGORY_GENERAL)).getChildElements(),
-				getConfigElement(), EasyTake.MODID, false, false, "Config File For EasyTake");
+				getConfigElement(), Constante.MODID, false, false, "Config File For EasyTake");
 	}
 
 	private static List<IConfigElement> getConfigElement()

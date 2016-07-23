@@ -13,11 +13,14 @@ import org.apache.http.util.EntityUtils;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.sun.corba.se.impl.orbutil.closure.Constant;
 
 import apache.MultipartEntity;
 import apache.content.ContentBody;
 import apache.content.FileBody;
+import apache.content.StringBody;
 import net.minecraft.client.Minecraft;
+import net.minecraft.util.text.TextComponentString;
 
 public class SendFile extends Thread
 {
@@ -60,6 +63,7 @@ public class SendFile extends Thread
 			ContentBody cbFile = new FileBody(file, "image/jpeg");
 
 			mpEntity.addPart("image", cbFile);
+			mpEntity.addPart("title", new StringBody("Minecraft Screen By EasyTake"));
 
 			httppost.setEntity(mpEntity);
 			System.out.println("executing request " + httppost.getRequestLine());
@@ -75,7 +79,7 @@ public class SendFile extends Thread
 				JsonObject result = (JsonObject)parser.parse(jsonString);
 				JsonObject data = result.get("data").getAsJsonObject();
 				
-			//	Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("Copied in clipboard !"));
+				Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new TextComponentString(Constante.CHAT_EASYTAKE + " Copied in clipboard !"));
 				Utils.Copier(data.get("link").getAsString());
 			}
 			if (resEntity != null)
@@ -85,11 +89,11 @@ public class SendFile extends Thread
 
 			httpclient.getConnectionManager().shutdown();
 
-			//Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("Screen Save"));
+			Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new TextComponentString(Constante.CHAT_EASYTAKE + " Screen Save"));
 		}
 		catch (Exception e)
 		{
-		//	Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new ChatComponentText("Error"));
+			Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new TextComponentString(Constante.CHAT_EASYTAKE + " Error"));
 			e.printStackTrace();
 		}
 	}

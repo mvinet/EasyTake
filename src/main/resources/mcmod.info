@@ -3,7 +3,7 @@
   "modid": "easyTake",
   "name": "Easy Take",
   "description": "EasyTake is a mod for take screenshot in minecraft and upload it in Imgur",
-  "version": "1.10.2-0.1",
+  "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "https://github.com/fanor79/EasyTake",
   "updateUrl": "",
