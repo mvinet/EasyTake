@@ -26,19 +26,18 @@ public class PlayerEventHandler {
 			
 			try 
 			{
-				URL url = new URL("http://dev.fanor79.com/ushare/version.txt");
+				URL url = new URL(Constante.UPDATE_URL);
 				InputStream ins = url.openStream();
 				BufferedReader txt = new BufferedReader(new InputStreamReader(ins));
 				String urlv = txt.readLine();
 				if(!Constante.VERSION.equalsIgnoreCase(urlv))
 				{
-					player.addChatMessage(new TextComponentString(Constante.CHAT_EASYTAKE + " A new release of Ushare " + urlv + " is now available on http://usqua.re"));
+					player.addChatMessage(new TextComponentString(Constante.UPDATE_WITHURL.replace("*version*", urlv)));
 				}
-
 			} 
 			catch (Exception e2) 
 			{
-				player.addChatMessage(new TextComponentString(Constante.CHAT_EASYTAKE + " A new release of EasyTake is now available"));
+				player.addChatMessage(new TextComponentString(Constante.UPDATE_DEFAULT));
 			}
 		}
 	}

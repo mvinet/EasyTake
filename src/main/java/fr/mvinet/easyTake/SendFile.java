@@ -53,6 +53,8 @@ public class SendFile extends Thread
 		 */
 		try
 		{
+			Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new TextComponentString(Constante.UPLOAD_STARTSEND));
+			
 			HttpClient httpclient = new DefaultHttpClient();
 			httpclient.getParams().setParameter(CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
 
@@ -63,7 +65,6 @@ public class SendFile extends Thread
 			ContentBody cbFile = new FileBody(file, "image/jpeg");
 
 			mpEntity.addPart("image", cbFile);
-			mpEntity.addPart("title", new StringBody("Minecraft Screen By EasyTake"));
 
 			httppost.setEntity(mpEntity);
 			System.out.println("executing request " + httppost.getRequestLine());
@@ -79,7 +80,7 @@ public class SendFile extends Thread
 				JsonObject result = (JsonObject)parser.parse(jsonString);
 				JsonObject data = result.get("data").getAsJsonObject();
 				
-				Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new TextComponentString(Constante.CHAT_EASYTAKE + " Copied in clipboard !"));
+				Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new TextComponentString(Constante.UPLOAD_COPIED));
 				Utils.Copier(data.get("link").getAsString());
 			}
 			if (resEntity != null)
@@ -89,11 +90,10 @@ public class SendFile extends Thread
 
 			httpclient.getConnectionManager().shutdown();
 
-			Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new TextComponentString(Constante.CHAT_EASYTAKE + " Screen Save"));
 		}
 		catch (Exception e)
 		{
-			Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new TextComponentString(Constante.CHAT_EASYTAKE + " Error"));
+			Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new TextComponentString(Constante.UPLOAD_ERROR));
 			e.printStackTrace();
 		}
 	}
