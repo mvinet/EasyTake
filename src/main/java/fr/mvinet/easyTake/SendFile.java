@@ -20,7 +20,9 @@ import apache.content.ContentBody;
 import apache.content.FileBody;
 import apache.content.StringBody;
 import net.minecraft.client.Minecraft;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraftforge.common.config.Configuration;
 
 public class SendFile extends Thread
 {
@@ -82,6 +84,9 @@ public class SendFile extends Thread
 				
 				Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new TextComponentString(Constante.UPLOAD_COPIED));
 				Utils.Copier(data.get("link").getAsString());
+				
+				String urlimg = "{\"text\":\"" + data.get("link").getAsString() + "\",\"clickEvent\":{\"action\":\"open_url\",\"value\":\"" + data.get("link").getAsString() + "\"}}";
+				Minecraft.getMinecraft().thePlayer.addChatComponentMessage(ITextComponent.Serializer.jsonToComponent(urlimg));
 			}
 			if (resEntity != null)
 			{
@@ -89,7 +94,12 @@ public class SendFile extends Thread
 			}
 
 			httpclient.getConnectionManager().shutdown();
-
+			
+			if(!EasyTake.config.getCategory(Configuration.CATEGORY_GENERAL).get("saveOnDisk").getBoolean())
+			{
+				file.delete();
+			}
+			
 		}
 		catch (Exception e)
 		{

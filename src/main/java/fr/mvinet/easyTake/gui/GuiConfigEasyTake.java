@@ -12,18 +12,14 @@ import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.client.config.ConfigGuiType;
 import net.minecraftforge.fml.client.config.DummyConfigElement;
 import net.minecraftforge.fml.client.config.GuiConfig;
-import net.minecraftforge.fml.client.config.GuiConfigEntries.CycleValueEntry;
-import net.minecraftforge.fml.client.config.GuiConfigEntries.NumberSliderEntry;
+import net.minecraftforge.fml.client.config.GuiConfigEntries.*;
 import net.minecraftforge.fml.client.config.IConfigElement;
 
 public class GuiConfigEasyTake extends GuiConfig
 {
 	public GuiConfigEasyTake(GuiScreen screen)
 	{
-		super(screen,
-		// new
-		// ConfigElement(EasyTake.config.getCategory(Configuration.CATEGORY_GENERAL)).getChildElements(),
-				getConfigElement(), Constante.MODID, false, false, "Config File For EasyTake");
+		super(screen, getConfigElement(), Constante.MODID, false, false, "Config File For EasyTake");
 	}
 
 	private static List<IConfigElement> getConfigElement()
@@ -32,16 +28,20 @@ public class GuiConfigEasyTake extends GuiConfig
 
 		String color = EasyTake.config.getCategory(Configuration.CATEGORY_GENERAL).get("colorFilter").getString();
 		Integer transparency = EasyTake.config.getCategory(Configuration.CATEGORY_GENERAL).get("transparency").getInt();
-
+		Boolean saveOnDisk = EasyTake.config.getCategory(Configuration.CATEGORY_GENERAL).get("saveOnDisk").getBoolean();
+		
 		list.add(new DummyConfigElement("colorFilter", color, ConfigGuiType.STRING, "fr.mvinet.easyTake.EasyTake.config", new String[] { "none", "red",
 				"blue" }));
 		list.add(new DummyConfigElement("transparency", transparency, ConfigGuiType.INTEGER, "", 0, 100).setCustomListEntryClass(NumberSliderEntry.class));
-
+		list.add(new DummyConfigElement("saveOnDisk", saveOnDisk, ConfigGuiType.BOOLEAN, ""));
+		
 		String colorDefault = EasyTake.config.getCategory(Configuration.CATEGORY_GENERAL).get("colorFilter").getDefault();
 		Integer transparencyDefault = Integer.parseInt(EasyTake.config.getCategory(Configuration.CATEGORY_GENERAL).get("transparency").getDefault());
-
+		Boolean saveOnDiskDefault = Boolean.parseBoolean(EasyTake.config.getCategory(Configuration.CATEGORY_GENERAL).get("saveOnDisk").getDefault());
+		
 		list.get(0).set(colorDefault);
 		list.get(1).set(transparencyDefault);
+		list.get(2).set(saveOnDiskDefault);
 
 		return list;
 	}
@@ -62,6 +62,10 @@ public class GuiConfigEasyTake extends GuiConfig
 			else if (object instanceof NumberSliderEntry)
 			{
 				categ.get("transparency").set(((NumberSliderEntry) object).getCurrentValue().toString());
+			}
+			else if(object instanceof BooleanEntry)
+			{
+				categ.get("saveOnDisk").set(((BooleanEntry) object).getCurrentValue().toString());
 			}
 		}
 
