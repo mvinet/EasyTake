@@ -89,7 +89,7 @@ public class SendFile extends Thread
 				Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new TextComponentString(Constante.UPLOAD_COPIED));
 				Utils.Copier(data.get("link").getAsString());
 				
-				String urlimg = "{\"text\":\" " + Constante.PREFIX + data.get("link").getAsString() + "\",\"clickEvent\":{\"action\":\"open_url\",\"value\":\"" + data.get("link").getAsString() + "\"}}";
+				String urlimg = "{\"text\":\" " + Constante.PREFIX + " " + data.get("link").getAsString() + "\",\"clickEvent\":{\"action\":\"open_url\",\"value\":\"" + data.get("link").getAsString() + "\"}}";
 				Minecraft.getMinecraft().thePlayer.addChatComponentMessage(ITextComponent.Serializer.jsonToComponent(urlimg));
 			}
 			if (resEntity != null)

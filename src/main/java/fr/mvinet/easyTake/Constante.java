@@ -7,8 +7,8 @@ public class Constante
 	public static final String PREFIX = "[" + TextFormatting.GREEN + "Easy" + TextFormatting.GOLD + "Take"
 			+ TextFormatting.WHITE + "]";
 
-	public static final String MODID = "easyTake";
-	public static final String VERSION = "1.10.2-0.1";
+	public static final String MODID = "easytake";
+	public static final String VERSION = "1.10.2-0.1.1";
 
 	public static final String UPLOAD_COPIED = PREFIX
 			+ " Le liens de votre screen a été copié dans votre presse papier !";

@@ -7,6 +7,7 @@ import fr.mvinet.easyTake.Constante;
 import fr.mvinet.easyTake.EasyTake;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.common.config.ConfigCategory;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.client.config.ConfigGuiType;
@@ -19,7 +20,7 @@ public class GuiConfigEasyTake extends GuiConfig
 {
 	public GuiConfigEasyTake(GuiScreen screen)
 	{
-		super(screen, getConfigElement(), Constante.MODID, false, false, "Config File For EasyTake");
+		super(screen, getConfigElement(), Constante.MODID, false, false, "Fichier de configuration d'EasyTake");
 	}
 
 	private static List<IConfigElement> getConfigElement()
@@ -30,10 +31,10 @@ public class GuiConfigEasyTake extends GuiConfig
 		Integer transparency = EasyTake.config.getCategory(Configuration.CATEGORY_GENERAL).get("transparency").getInt();
 		Boolean saveOnDisk = EasyTake.config.getCategory(Configuration.CATEGORY_GENERAL).get("saveOnDisk").getBoolean();
 		
-		list.add(new DummyConfigElement("colorFilter", color, ConfigGuiType.STRING, "fr.mvinet.easyTake.EasyTake.config", new String[] { "none", "red",
+		list.add(new DummyConfigElement("colorFilter", color, ConfigGuiType.STRING, "easyTake.Config.colorFilter", new String[] { "none", "red",
 				"blue" }));
-		list.add(new DummyConfigElement("transparency", transparency, ConfigGuiType.INTEGER, "", 0, 100).setCustomListEntryClass(NumberSliderEntry.class));
-		list.add(new DummyConfigElement("saveOnDisk", saveOnDisk, ConfigGuiType.BOOLEAN, ""));
+		list.add(new DummyConfigElement("transparency", transparency, ConfigGuiType.INTEGER, "easyTake.Config.transparency", 0, 100).setCustomListEntryClass(NumberSliderEntry.class));
+		list.add(new DummyConfigElement("saveOnDisk", saveOnDisk, ConfigGuiType.BOOLEAN, "easyTake.Config.saveOnDisk"));
 		
 		String colorDefault = EasyTake.config.getCategory(Configuration.CATEGORY_GENERAL).get("colorFilter").getDefault();
 		Integer transparencyDefault = Integer.parseInt(EasyTake.config.getCategory(Configuration.CATEGORY_GENERAL).get("transparency").getDefault());

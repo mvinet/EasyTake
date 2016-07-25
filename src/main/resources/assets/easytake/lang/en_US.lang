@@ -1,0 +1,7 @@
+#Config
+easyTake.Config.colorFilter=Color Filter
+easyTake.Config.colorFilter.tooltip=Add uniform color filter
+easyTake.Config.transparency=Opacity
+easyTake.Config.transparency.tooltip=Choose opacity of the color filter
+easyTake.Config.saveOnDisk=Save on disk
+easyTake.Config.saveOnDisk.tooltip=Save the screenshot in the folder EasyTake/Screen/ (in your path minecraft)
