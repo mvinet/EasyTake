@@ -61,13 +61,17 @@ public class SendFile extends Thread
 			httpclient.getParams().setParameter(CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
 
 			HttpPost httppost = Utils.getApiImgur("image");
-			httppost.setHeader("Authorization", "Client-ID 10d70a48840de35");
+			httppost.setHeader("Authorization", "Client-ID c37f45c23120776");
 
 			MultipartEntity mpEntity = new MultipartEntity();
 			ContentBody cbFile = new FileBody(file, "image/jpeg");
 
 			mpEntity.addPart("image", cbFile);
-
+			mpEntity.addPart(
+					"title", 
+					new StringBody("Captured by " + Minecraft.getMinecraft().thePlayer.getName() + " with EasyTake")
+			);
+			
 			httppost.setEntity(mpEntity);
 			System.out.println("executing request " + httppost.getRequestLine());
 			HttpResponse response = httpclient.execute(httppost);
@@ -85,7 +89,7 @@ public class SendFile extends Thread
 				Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new TextComponentString(Constante.UPLOAD_COPIED));
 				Utils.Copier(data.get("link").getAsString());
 				
-				String urlimg = "{\"text\":\"" + data.get("link").getAsString() + "\",\"clickEvent\":{\"action\":\"open_url\",\"value\":\"" + data.get("link").getAsString() + "\"}}";
+				String urlimg = "{\"text\":\" " + Constante.PREFIX + data.get("link").getAsString() + "\",\"clickEvent\":{\"action\":\"open_url\",\"value\":\"" + data.get("link").getAsString() + "\"}}";
 				Minecraft.getMinecraft().thePlayer.addChatComponentMessage(ITextComponent.Serializer.jsonToComponent(urlimg));
 			}
 			if (resEntity != null)

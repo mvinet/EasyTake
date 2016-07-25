@@ -7,6 +7,7 @@ import java.net.URL;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
@@ -23,7 +24,7 @@ public class PlayerEventHandler {
 		if(e.getEntity() instanceof EntityPlayerSP)
 		{
 			EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
-			
+			System.out.println(Constante.UPDATE_WITHURL);
 			try 
 			{
 				URL url = new URL(Constante.UPDATE_URL);
@@ -32,7 +33,7 @@ public class PlayerEventHandler {
 				String urlv = txt.readLine();
 				if(!Constante.VERSION.equalsIgnoreCase(urlv))
 				{
-					player.addChatMessage(new TextComponentString(Constante.UPDATE_WITHURL.replace("*version*", urlv)));
+					player.addChatMessage(ITextComponent.Serializer.jsonToComponent(Constante.UPDATE_WITHURL.replace("*version*", urlv)));
 				}
 			} 
 			catch (Exception e2) 

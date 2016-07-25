@@ -54,9 +54,9 @@ public class EasyTake
 	{
 		config.load();
 
-		config.getString("colorFilter", Configuration.CATEGORY_GENERAL, "none", "Your chosen color filter!");
-		config.getInt("transparency", Configuration.CATEGORY_GENERAL, 0, 0, 100, "Transparency for color filter");
-		config.getBoolean("saveOnDisk", Configuration.CATEGORY_GENERAL, true, "Save upload on your disk");
+		config.getString("colorFilter", Configuration.CATEGORY_GENERAL, "none", "Votre filtre de couleur");
+		config.getInt("transparency", Configuration.CATEGORY_GENERAL, 0, 0, 100, "La transparence du filtre de couleur");
+		config.getBoolean("saveOnDisk", Configuration.CATEGORY_GENERAL, true, "Sauvegarde l'image en local");
 		
 		if(config.hasChanged())
 		{
