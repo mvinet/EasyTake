@@ -20,7 +20,7 @@ public class GuiConfigEasyTake extends GuiConfig
 {
 	public GuiConfigEasyTake(GuiScreen screen)
 	{
-		super(screen, getConfigElement(), Constante.MODID, false, false, "Fichier de configuration d'EasyTake");
+		super(screen, getConfigElement(), Constante.MODID, false, false, "EasyTake Configuration");
 	}
 
 	private static List<IConfigElement> getConfigElement()

@@ -20,9 +20,13 @@ import apache.content.ContentBody;
 import apache.content.FileBody;
 import apache.content.StringBody;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.event.ClickEvent;
+import net.minecraft.util.text.event.ClickEvent.Action;
 import net.minecraftforge.common.config.Configuration;
 
 public class SendFile extends Thread
@@ -45,6 +49,7 @@ public class SendFile extends Thread
 	@SuppressWarnings("resource")
 	public static void sendPost(File file)
 	{
+		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
 		/**
 		 * {"data":{ "id":"x07Mopl", "title":null, "description":null,
 		 * "datetime":1455217972, "type":"image\/jpeg", "animated":false,
@@ -56,7 +61,7 @@ public class SendFile extends Thread
 		 */
 		try
 		{
-			Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new TextComponentString(Constante.UPLOAD_STARTSEND));
+			player.addChatComponentMessage(new TextComponentTranslation(Constante.UPLOAD_STARTSEND));
 			
 			HttpClient httpclient = new DefaultHttpClient();
 			httpclient.getParams().setParameter(CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
@@ -70,7 +75,7 @@ public class SendFile extends Thread
 			mpEntity.addPart("image", cbFile);
 			mpEntity.addPart(
 					"title", 
-					new StringBody("Captured by " + Minecraft.getMinecraft().thePlayer.getName() + " with EasyTake")
+					new StringBody("Captured by " + player.getName() + " with EasyTake")
 			);
 			
 			httppost.setEntity(mpEntity);
@@ -87,11 +92,15 @@ public class SendFile extends Thread
 				JsonObject result = (JsonObject)parser.parse(jsonString);
 				JsonObject data = result.get("data").getAsJsonObject();
 				
-				Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new TextComponentTranslation(Constante.UPLOAD_CLIPBOARD));
+				player.addChatComponentMessage(new TextComponentTranslation(Constante.UPLOAD_CLIPBOARD));
 				Utils.Copier(data.get("link").getAsString());
 				
-				String urlimg = "{\"text\":\" " + Constante.PREFIX + " " + data.get("link").getAsString() + "\",\"clickEvent\":{\"action\":\"open_url\",\"value\":\"" + data.get("link").getAsString() + "\"}}";
-				Minecraft.getMinecraft().thePlayer.addChatComponentMessage(ITextComponent.Serializer.jsonToComponent(urlimg));
+				ClickEvent event = new ClickEvent(Action.OPEN_URL, data.get("link").getAsString());
+				Style style = new Style().setClickEvent(event);
+				TextComponentString tct;
+				tct = (TextComponentString) new TextComponentString(Constante.PREFIX).appendText(" " + data.get("link").getAsString()).setStyle(style);
+
+				player.addChatComponentMessage(tct);
 			}
 			if (resEntity != null)
 			{
@@ -108,7 +117,7 @@ public class SendFile extends Thread
 		}
 		catch (Exception e)
 		{
-			Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new TextComponentTranslation(Constante.UPLOAD_ERROR));
+			player.addChatComponentMessage(new TextComponentTranslation(Constante.UPLOAD_ERROR));
 			e.printStackTrace();
 		}
 	}
