@@ -8,9 +8,12 @@ import java.net.URL;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.event.ClickEvent;
+import net.minecraft.util.text.event.ClickEvent.Action;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -24,7 +27,6 @@ public class PlayerEventHandler {
 		if(e.getEntity() instanceof EntityPlayerSP)
 		{
 			EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
-			System.out.println(Constante.UPDATE_WITHURL);
 			try 
 			{
 				URL url = new URL(Constante.UPDATE_URL);
@@ -33,12 +35,17 @@ public class PlayerEventHandler {
 				String urlv = txt.readLine();
 				if(!Constante.VERSION.equalsIgnoreCase(urlv))
 				{
-					player.addChatMessage(ITextComponent.Serializer.jsonToComponent(Constante.UPDATE_WITHURL.replace("*version*", urlv)));
+					ClickEvent event = new ClickEvent(Action.OPEN_URL, Constante.UPDATE_DOWNLOAD);
+					Style style = new Style().setClickEvent(event);
+					TextComponentTranslation tct = (TextComponentTranslation) new TextComponentTranslation(Constante.UPDATE_WITHURL).setStyle(style);
+
+					player.addChatComponentMessage(tct);
 				}
 			} 
 			catch (Exception e2) 
 			{
-				player.addChatMessage(new TextComponentString(Constante.UPDATE_DEFAULT));
+				e2.printStackTrace();
+				player.addChatMessage(new TextComponentTranslation(Constante.UPDATE_DEFAULT));
 			}
 		}
 	}

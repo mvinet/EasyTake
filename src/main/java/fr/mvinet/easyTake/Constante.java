@@ -8,14 +8,14 @@ public class Constante
 			+ TextFormatting.WHITE + "]";
 
 	public static final String MODID = "easytake";
-	public static final String VERSION = "1.10.2-0.1.2";
+	public static final String VERSION = "1.10.2-0.1.3";
 
-	public static final String UPLOAD_COPIED = PREFIX
-			+ " Le liens de votre screen a été copié dans votre presse papier !";
-	public static final String UPLOAD_STARTSEND = PREFIX + " Upload en cours ..";
-	public static final String UPLOAD_ERROR = PREFIX + " Erreur !";
+	public static final String UPLOAD_CLIPBOARD = "easytake.Upload.clipboard";
+	public static final String UPLOAD_STARTSEND = "easytake.Upload.startsend";
+	public static final String UPLOAD_ERROR = " Erreur !";
 
 	public static final String UPDATE_URL = "http://dev.mvinet.fr/EasyTake/version.txt";
-	public static final String UPDATE_WITHURL = "{\"text\":\"" + PREFIX + " La version *version* d'EasyTake est maintenant disponible cliquer ici pour la télécharger\",\"clickEvent\":{\"action\":\"open_url\",\"value\":\"http://easytake.tk/download.html\"}}";
-	public static final String UPDATE_DEFAULT = PREFIX + " Une nouvelle version d'EasyTake est disponible";
+	public static final String UPDATE_DOWNLOAD = "http://easytake.tk/download.html";
+	public static final String UPDATE_WITHURL = "easytake.Update.newUpdate";
+	public static final String UPDATE_DEFAULT = "easytake.Update.default";
 }

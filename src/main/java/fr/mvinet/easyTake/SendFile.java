@@ -22,6 +22,7 @@ import apache.content.StringBody;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.common.config.Configuration;
 
 public class SendFile extends Thread
@@ -86,7 +87,7 @@ public class SendFile extends Thread
 				JsonObject result = (JsonObject)parser.parse(jsonString);
 				JsonObject data = result.get("data").getAsJsonObject();
 				
-				Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new TextComponentString(Constante.UPLOAD_COPIED));
+				Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new TextComponentTranslation(Constante.UPLOAD_CLIPBOARD));
 				Utils.Copier(data.get("link").getAsString());
 				
 				String urlimg = "{\"text\":\" " + Constante.PREFIX + " " + data.get("link").getAsString() + "\",\"clickEvent\":{\"action\":\"open_url\",\"value\":\"" + data.get("link").getAsString() + "\"}}";
@@ -107,7 +108,7 @@ public class SendFile extends Thread
 		}
 		catch (Exception e)
 		{
-			Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new TextComponentString(Constante.UPLOAD_ERROR));
+			Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new TextComponentTranslation(Constante.UPLOAD_ERROR));
 			e.printStackTrace();
 		}
 	}
