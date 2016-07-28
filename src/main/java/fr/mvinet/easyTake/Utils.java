@@ -30,7 +30,8 @@ import org.xml.sax.SAXException;
 
 public class Utils
 {
-
+	public static final String[] LISTECOLOR = {"none", "black", "blue", "cyan", "darkgray", "gray", "green", "lightgray", "magenta", "orange", "pink", "red", "yellow", "white"};
+	
 	public static HttpPost getApiImgur(String url)
 	{
 		HttpPost post = new HttpPost("https://api.imgur.com/3/" + url);
@@ -50,13 +51,31 @@ public class Utils
 	 */
 	public static Color getColor(String color)
 	{
-		if (color.equalsIgnoreCase("red"))
-			return Color.RED;
-		else if (color.equalsIgnoreCase("green"))
-			return Color.GREEN;
-		else if (color.equalsIgnoreCase("blue"))
-			return Color.BLUE;
-		return null;
+		if(color.equalsIgnoreCase("black"))
+			return Color.black;
+		else if(color.equalsIgnoreCase("blue"))
+			return Color.blue;
+		else if(color.equalsIgnoreCase("cyan"))
+			return Color.cyan;
+		else if(color.equalsIgnoreCase("darkgray"))
+			return Color.darkGray;
+		else if(color.equalsIgnoreCase("gray"))
+			return Color.gray;
+		else if(color.equalsIgnoreCase("green"))
+			return Color.green;
+		else if(color.equalsIgnoreCase("lightgray"))
+			return Color.lightGray;
+		else if(color.equalsIgnoreCase("magenta"))
+			return Color.magenta;
+		else if(color.equalsIgnoreCase("orange"))
+			return Color.orange;
+		else if(color.equalsIgnoreCase("pink"))
+			return Color.pink;
+		else if(color.equalsIgnoreCase("red"))
+			return Color.red;
+		else if(color.equalsIgnoreCase("yellow"))
+			return Color.yellow;
+		return Color.white;
 	}
 
 }

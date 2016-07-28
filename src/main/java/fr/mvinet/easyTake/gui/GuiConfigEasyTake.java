@@ -5,6 +5,7 @@ import java.util.List;
 
 import fr.mvinet.easyTake.Constante;
 import fr.mvinet.easyTake.EasyTake;
+import fr.mvinet.easyTake.Utils;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.text.translation.I18n;
@@ -31,8 +32,7 @@ public class GuiConfigEasyTake extends GuiConfig
 		Integer transparency = EasyTake.config.getCategory(Configuration.CATEGORY_GENERAL).get("transparency").getInt();
 		Boolean saveOnDisk = EasyTake.config.getCategory(Configuration.CATEGORY_GENERAL).get("saveOnDisk").getBoolean();
 		
-		list.add(new DummyConfigElement("colorFilter", color, ConfigGuiType.STRING, "easyTake.Config.colorFilter", new String[] { "none", "red",
-				"blue" }));
+		list.add(new DummyConfigElement("colorFilter", color, ConfigGuiType.STRING, "easyTake.Config.colorFilter", Utils.LISTECOLOR));
 		list.add(new DummyConfigElement("transparency", transparency, ConfigGuiType.INTEGER, "easyTake.Config.transparency", 0, 100).setCustomListEntryClass(NumberSliderEntry.class));
 		list.add(new DummyConfigElement("saveOnDisk", saveOnDisk, ConfigGuiType.BOOLEAN, "easyTake.Config.saveOnDisk"));
 		
