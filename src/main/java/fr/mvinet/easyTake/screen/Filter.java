@@ -40,23 +40,34 @@ public class Filter
 			FileUtils.copyURLToFile(url, file);
 			
 			BufferedImage screen = ImageIO.read(output);
-			//BufferedImage overlay = ImageIO.read(url);
 			BufferedImage overlay = ImageIO.read(file);
+			BufferedImage resizeImage = null;
 			
 			int w = screen.getWidth();
 			int h = screen.getHeight();
 
-			BufferedImage resizeImage = new BufferedImage((int)(w*0.35f), (int)(h*0.2f), BufferedImage.TYPE_INT_ARGB);
-			Graphics2D g2d = resizeImage.createGraphics();
-			g2d.drawImage(overlay, 0, 0, (int)(w*0.35f), (int)(h*0.2f), null);
-			g2d.dispose();
-			g2d.setComposite(AlphaComposite.Src);
+			int woverlay = (int)(w * 0.35f);
+			int hoverlay = (int)(h * 0.2f);
+			
+			//Si la taille de l'image resize est superieur a l'original && idem pour la hauteur
+			if(woverlay > overlay.getWidth() && hoverlay > overlay.getHeight())
+			{
+				
+			}
+			else
+			{
+				resizeImage = new BufferedImage(woverlay, hoverlay, BufferedImage.TYPE_INT_ARGB);
+				Graphics2D g2d = resizeImage.createGraphics();
+				g2d.drawImage(overlay, 0, 0, woverlay, hoverlay, null);
+				g2d.dispose();
+				g2d.setComposite(AlphaComposite.Src);
+			}
 			
 			BufferedImage result = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
 		
 			Graphics g = result.getGraphics();
 			g.drawImage(screen, 0, 0, null);
-			g.drawImage(resizeImage, 0, 0, null);
+			g.drawImage(resizeImage == null ? resizeImage : overlay, 0, 0, null);
 			g.dispose();
 
 			ImageIO.write(result, "jpg", output);
