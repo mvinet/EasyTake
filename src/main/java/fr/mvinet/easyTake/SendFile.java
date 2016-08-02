@@ -50,15 +50,7 @@ public class SendFile extends Thread
 	public static void sendPost(File file)
 	{
 		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
-		/**
-		 * {"data":{ "id":"x07Mopl", "title":null, "description":null,
-		 * "datetime":1455217972, "type":"image\/jpeg", "animated":false,
-		 * "width":854, "height":480, "size":48104, "views":0, "bandwidth":0,
-		 * "vote":null, "favorite":false, "nsfw":null, "section":null,
-		 * "account_url":null, "account_id":0, "comment_preview":null,
-		 * "deletehash":"aU38YcGx9PMTcfO", "name":"", "link":
-		 * "http:\/\/i.imgur.com\/x07Mopl.jpg"},"success":true,"status":200}
-		 */
+
 		try
 		{
 			player.addChatComponentMessage(new TextComponentTranslation(Constante.UPLOAD_STARTSEND));

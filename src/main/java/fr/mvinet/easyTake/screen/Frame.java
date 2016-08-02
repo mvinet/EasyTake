@@ -1,9 +1,7 @@
 package fr.mvinet.easyTake.screen;
 
 import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferInt;
-import java.awt.image.WritableRaster;
+import java.awt.image.*;
 
 import net.minecraft.client.Minecraft;
 
@@ -16,6 +14,7 @@ public class Frame extends BufferedImage
 	{
 		super(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_RGB);
 		this.frameID = frameID;
+		
 		if (FrameWriter.getOutput() == null)
 		{
 			FrameWriter.setOutput(Minecraft.getMinecraft().mcDataDir + "//EasyTake//Screen");

@@ -65,13 +65,16 @@ public class FrameWriter
 			Float transparency = (float)EasyTake.config.getCategory(Configuration.CATEGORY_GENERAL).get("transparency").getDouble();;
 			
 			System.out.println(color + " " + transparency);
+			
 			if (!color.equalsIgnoreCase("none"))
 			{
 				Filter.overlayFrameFromColor(frame, Utils.getColor(color), transparency / 100F);
 			}
-
+			
 			ImageIO.write(frame.getBufferedImage(), "jpg", output);
 
+			Filter.overlayFrameFromPicture(output, "Logo_EasyTake.png");
+			
 			SendFile sfile = new SendFile("sendfile", output);
 			sfile.start();
 			
