@@ -67,7 +67,7 @@ public class Filter
 		
 			Graphics g = result.getGraphics();
 			g.drawImage(screen, 0, 0, null);
-			g.drawImage(resizeImage == null ? resizeImage : overlay, 0, 0, null);
+			g.drawImage(resizeImage == null ? overlay : resizeImage, 0, 0, null);
 			g.dispose();
 
 			ImageIO.write(result, "jpg", output);
