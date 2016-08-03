@@ -21,7 +21,16 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-@Mod(modid = Constante.MODID, version = Constante.VERSION, name = "EasyTake", guiFactory = "fr.mvinet.easyTake.gui.GuiFactoryEasyTake")
+@Mod(
+		modid = Constante.MODID, 
+		version = Constante.VERSION, 
+		name = "EasyTake", 
+		guiFactory = "fr.mvinet.easyTake.gui.GuiFactoryEasyTake",
+		canBeDeactivated = true,
+		clientSideOnly = true,
+		updateJSON = "http://dev.mvinet.fr/EasyTake/version.json"
+)
+
 public class EasyTake
 {
 	@Instance(Constante.MODID)

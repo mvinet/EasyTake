@@ -8,7 +8,7 @@ public class Constante
 			+ TextFormatting.WHITE + "]";
 
 	public static final String MODID = "easytake";
-	public static final String VERSION = "1.10.2-0.2.2";
+	public static final String VERSION = "0.2.2";
 
 	public static final String UPLOAD_CLIPBOARD = "easytake.Upload.clipboard";
 	public static final String UPLOAD_STARTSEND = "easytake.Upload.startsend";
