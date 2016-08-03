@@ -101,7 +101,7 @@ public class SendFile extends Thread
 
 			httpclient.getConnectionManager().shutdown();
 			
-			if(!EasyTake.config.getCategory(Configuration.CATEGORY_GENERAL).get("saveOnDisk").getBoolean())
+			if(!Config.getConfig().getCategory(Configuration.CATEGORY_GENERAL).get("saveOnDisk").getBoolean())
 			{
 				file.delete();
 			}

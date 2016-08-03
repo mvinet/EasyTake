@@ -5,7 +5,8 @@ easyTake.Config.transparency=Opacité
 easyTake.Config.transparency.tooltip=Permet de choisir l'opacité d'un filtre coloré
 easyTake.Config.saveOnDisk=Sauvegarde sur le disque
 easyTake.Config.saveOnDisk.tooltip=Sauvegarde automatiquement les captures d'écran dans le dossier : EasyTake/Screen/ (dans votre dossier minecraft)
-
+easyTake.Config.showOverlayEasyTake=Affiche le logo d'easytake
+easyTake.Config.showOverlayEasyTake.tooltip=Permet d'afficher ou pas le logo d'easytake
 #Error
 easytake.error=Erreur !
 

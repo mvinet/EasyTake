@@ -13,6 +13,7 @@ import javax.imageio.ImageIO;
 import org.lwjgl.Sys;
 
 import net.minecraftforge.common.config.Configuration;
+import fr.mvinet.easyTake.Config;
 import fr.mvinet.easyTake.EasyTake;
 import fr.mvinet.easyTake.SendFile;
 import fr.mvinet.easyTake.Utils;
@@ -61,8 +62,9 @@ public class FrameWriter
 			final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss");
 			File output = new File(outputFile, "screenshot_" + dateFormat.format(new Date()).toString() + ".jpg");
 
-			String color = EasyTake.config.getCategory(Configuration.CATEGORY_GENERAL).get("colorFilter").getString();
-			Float transparency = (float)EasyTake.config.getCategory(Configuration.CATEGORY_GENERAL).get("transparency").getDouble();;
+			String color = Config.getConfig().getCategory(Configuration.CATEGORY_GENERAL).get("colorFilter").getString();
+			Float transparency = (float)Config.getConfig().getCategory(Configuration.CATEGORY_GENERAL).get("transparency").getDouble();;
+			Boolean showOverlay = Config.getConfig().getCategory(Configuration.CATEGORY_GENERAL).get("showOverlayEasyTake").getBoolean();
 			
 			System.out.println(color + " " + transparency);
 			
@@ -73,8 +75,11 @@ public class FrameWriter
 			
 			ImageIO.write(frame.getBufferedImage(), "jpg", output);
 
-			Filter.overlayFrameFromPicture(output, "Logo_EasyTake.png");
-			
+			if(showOverlay)
+			{
+				Filter.overlayFrameFromPicture(output, "Logo_EasyTake.png");
+			}
+						
 			SendFile sfile = new SendFile("sendfile", output);
 			sfile.start();
 			

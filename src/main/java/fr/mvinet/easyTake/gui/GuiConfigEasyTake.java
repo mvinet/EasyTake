@@ -3,6 +3,7 @@ package fr.mvinet.easyTake.gui;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.mvinet.easyTake.Config;
 import fr.mvinet.easyTake.Constante;
 import fr.mvinet.easyTake.EasyTake;
 import fr.mvinet.easyTake.Utils;
@@ -26,51 +27,15 @@ public class GuiConfigEasyTake extends GuiConfig
 
 	private static List<IConfigElement> getConfigElement()
 	{
-		List<IConfigElement> list = new ArrayList<IConfigElement>();
-
-		String color = EasyTake.config.getCategory(Configuration.CATEGORY_GENERAL).get("colorFilter").getString();
-		Integer transparency = EasyTake.config.getCategory(Configuration.CATEGORY_GENERAL).get("transparency").getInt();
-		Boolean saveOnDisk = EasyTake.config.getCategory(Configuration.CATEGORY_GENERAL).get("saveOnDisk").getBoolean();
-		
-		list.add(new DummyConfigElement("colorFilter", color, ConfigGuiType.STRING, "easyTake.Config.colorFilter", Utils.LISTECOLOR));
-		list.add(new DummyConfigElement("transparency", transparency, ConfigGuiType.INTEGER, "easyTake.Config.transparency", 0, 100).setCustomListEntryClass(NumberSliderEntry.class));
-		list.add(new DummyConfigElement("saveOnDisk", saveOnDisk, ConfigGuiType.BOOLEAN, "easyTake.Config.saveOnDisk"));
-		
-		String colorDefault = EasyTake.config.getCategory(Configuration.CATEGORY_GENERAL).get("colorFilter").getDefault();
-		Integer transparencyDefault = Integer.parseInt(EasyTake.config.getCategory(Configuration.CATEGORY_GENERAL).get("transparency").getDefault());
-		Boolean saveOnDiskDefault = Boolean.parseBoolean(EasyTake.config.getCategory(Configuration.CATEGORY_GENERAL).get("saveOnDisk").getDefault());
-		
-		list.get(0).set(colorDefault);
-		list.get(1).set(transparencyDefault);
-		list.get(2).set(saveOnDiskDefault);
-
-		return list;
+		return Config.getConfigElement();
 	}
 
 	@Override
 	public void onGuiClosed()
 	{
 		super.onGuiClosed();
-		ConfigCategory categ;
-		categ = EasyTake.config.getCategory(Configuration.CATEGORY_GENERAL);
 
-		for (Object object : this.entryList.listEntries)
-		{
-			if (object instanceof CycleValueEntry)
-			{
-				categ.get("colorFilter").set(((CycleValueEntry) object).getCurrentValue());
-			}
-			else if (object instanceof NumberSliderEntry)
-			{
-				categ.get("transparency").set(((NumberSliderEntry) object).getCurrentValue().toString());
-			}
-			else if(object instanceof BooleanEntry)
-			{
-				categ.get("saveOnDisk").set(((BooleanEntry) object).getCurrentValue().toString());
-			}
-		}
-
-		EasyTake.config.save();
+		Config.saveConfig(this.entryList.listEntries);
 	}
 
 	public void initGui()

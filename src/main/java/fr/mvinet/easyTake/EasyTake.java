@@ -30,7 +30,6 @@ public class EasyTake
 	@SidedProxy(clientSide = "fr.mvinet.easyTake.ClientProxy", serverSide = "fr.mvinet.easyTake.CommonProxy")
 	
 	public static CommonProxy proxy;
-	public static Configuration config;
 	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent e)
@@ -43,8 +42,8 @@ public class EasyTake
 			directory.mkdirs();
 		}
 
-		config = new Configuration(e.getSuggestedConfigurationFile());
-		synConfig();
+		Config.setConfig(new Configuration(e.getSuggestedConfigurationFile()));
+		Config.synConfig();
 	}
 
 	@EventHandler
@@ -55,26 +54,12 @@ public class EasyTake
 		FMLCommonHandler.instance().bus().register(this);
 	}
 	
-	public static void synConfig()
-	{
-		config.load();
-
-		config.getString("colorFilter", Configuration.CATEGORY_GENERAL, "none", "Votre filtre de couleur");
-		config.getInt("transparency", Configuration.CATEGORY_GENERAL, 0, 0, 100, "La transparence du filtre de couleur");
-		config.getBoolean("saveOnDisk", Configuration.CATEGORY_GENERAL, true, "Sauvegarde l'image en local");
-		
-		if(config.hasChanged())
-		{
-			config.save();
-		}
-	}
-	
 	@SubscribeEvent
 	public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event)
 	{
 		if(event.getModID().equals(Constante.MODID))
 		{
-			config.save();
+			Config.getConfig().save();
 		}
 	}
 }

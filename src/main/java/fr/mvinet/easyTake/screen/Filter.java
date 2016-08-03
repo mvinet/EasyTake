@@ -17,7 +17,12 @@ import org.apache.commons.io.FileUtils;
 public class Filter
 {
 
-	// Overlays a filter with the set color and transparency.
+	/**
+	 * Permet de rajouter un filtre
+	 * @param frame la frame a modifier
+	 * @param color la couleur a choisir
+	 * @param transparency la transparence / opacité du filtre, 0 aucun; 100 max
+	 */
 	public static void overlayFrameFromColor(Frame frame, Color color, float transparency)
 	{
 		BufferedImage image = new BufferedImage(frame.getWidth(), frame.getHeight(), BufferedImage.TYPE_INT_ARGB);
@@ -30,6 +35,11 @@ public class Filter
 		frame.loadFrame(image);
 	}
 	
+	/**
+	 * Permet d'ajouter un overlay sur l'image
+	 * @param output le fichier a modifier
+	 * @param imageOverlay l'image a ajouter
+	 */
 	public static void overlayFrameFromPicture(File output, String imageOverlay)
 	{	
 		try
@@ -49,12 +59,7 @@ public class Filter
 			int woverlay = (int)(w * 0.35f);
 			int hoverlay = (int)(h * 0.2f);
 			
-			//Si la taille de l'image resize est superieur a l'original && idem pour la hauteur
-			if(woverlay > overlay.getWidth() && hoverlay > overlay.getHeight())
-			{
-				
-			}
-			else
+			if(!(woverlay > overlay.getWidth() && hoverlay > overlay.getHeight()))
 			{
 				resizeImage = new BufferedImage(woverlay, hoverlay, BufferedImage.TYPE_INT_ARGB);
 				Graphics2D g2d = resizeImage.createGraphics();
@@ -62,7 +67,7 @@ public class Filter
 				g2d.dispose();
 				g2d.setComposite(AlphaComposite.Src);
 			}
-			
+
 			BufferedImage result = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
 		
 			Graphics g = result.getGraphics();
@@ -71,7 +76,6 @@ public class Filter
 			g.dispose();
 
 			ImageIO.write(result, "jpg", output);
-			//frame.loadFrame(overlay);
 			
 			file.delete();
 			
