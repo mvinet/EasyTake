@@ -5,6 +5,21 @@ import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.regex.Pattern;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpVersion;
+import org.apache.http.ParseException;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.CoreProtocolPNames;
+import org.apache.http.util.EntityUtils;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -20,6 +35,12 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.event.ClickEvent;
+import net.minecraft.util.text.event.ClickEvent.Action;
 
 import org.apache.http.client.methods.HttpPost;
 import org.w3c.dom.Document;
@@ -28,17 +49,99 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import akka.dispatch.sysmsg.SystemMessageList;
+import apache.MultipartEntity;
+import apache.content.ContentBody;
+import apache.content.FileBody;
+import apache.content.StringBody;
+
 public class Utils
 {
-	public static final String[] LISTECOLOR = {"none", "black", "blue", "cyan", "darkgray", "gray", "green", "lightgray", "magenta", "orange", "pink", "red", "yellow", "white"};
-	
-	public static HttpPost getApiImgur(String url)
+	public static final String[] LISTECOLOR = { "none", "black", "blue", "cyan", "darkgray", "gray", "green",
+			"lightgray", "magenta", "orange", "pink", "red", "yellow", "white" };
+	public static final String[] LISTHOST = {"Uplmg", "Imgur"};
+
+	/**
+	 * Return the url of the uploaded file
+	 * @param host the host, two choice : uplmg or imgur
+	 * @param file the file to upload
+	 * @return the url of the file
+	 * @throws ClientProtocolException
+	 * @throws IOException
+	 */
+	@SuppressWarnings("resource")
+	public static String getApi(String host, File file) throws ClientProtocolException, IOException
 	{
-		HttpPost post = new HttpPost("https://api.imgur.com/3/" + url);
+		String res;
+
+		HttpPost post;
+		HttpClient httpclient;
+		HttpResponse response;
+		HttpEntity resEntity;
+
+		MultipartEntity mpEntity;
+		ContentBody cbFile;
+
+		if(host.equalsIgnoreCase("uplmg"))
+		{
+			post = new HttpPost("http://uplmg.com/file/upload");
+		}
+		else
+		{
+			post = new HttpPost("https://api.imgur.com/3/image");
+			post.setHeader("Authorization", "Client-ID c37f45c23120776");
+		}
+
+		httpclient = new DefaultHttpClient();
+		httpclient.getParams().setParameter(CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
+
+		mpEntity = new MultipartEntity();
+		cbFile = new FileBody(file, "image/jpeg");
 		
-		return post;
+		if(host.equalsIgnoreCase("uplmg"))
+		{
+			mpEntity.addPart("file", cbFile);
+			mpEntity.addPart("senderid", new StringBody("EasyTake " + Constante.VERSION));
+		}
+		else
+		{
+			mpEntity.addPart("image", cbFile);
+		}
+		
+		post.setEntity(mpEntity);
+		response = httpclient.execute(post);
+		resEntity = response.getEntity();
+
+		res = null;
+		
+		if (resEntity != null)
+		{
+			if(host.equalsIgnoreCase("uplmg"))
+			{
+				res = EntityUtils.toString(resEntity);
+			}
+			else
+			{
+				String jsonString = EntityUtils.toString(resEntity);
+				JsonParser parser = new JsonParser();
+				JsonObject result = (JsonObject) parser.parse(jsonString);
+				JsonObject data = result.get("data").getAsJsonObject();
+
+				res = data.get("link").getAsString();
+			}
+		}
+		if (resEntity != null)
+		{
+			resEntity.consumeContent();
+		}
+		httpclient.getConnectionManager().shutdown();
+
+		return res;
 	}
-	
+
 	public static void Copier(String text)
 	{
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
@@ -51,31 +154,30 @@ public class Utils
 	 */
 	public static Color getColor(String color)
 	{
-		if(color.equalsIgnoreCase("black"))
+		if (color.equalsIgnoreCase("black"))
 			return Color.black;
-		else if(color.equalsIgnoreCase("blue"))
+		else if (color.equalsIgnoreCase("blue"))
 			return Color.blue;
-		else if(color.equalsIgnoreCase("cyan"))
+		else if (color.equalsIgnoreCase("cyan"))
 			return Color.cyan;
-		else if(color.equalsIgnoreCase("darkgray"))
+		else if (color.equalsIgnoreCase("darkgray"))
 			return Color.darkGray;
-		else if(color.equalsIgnoreCase("gray"))
+		else if (color.equalsIgnoreCase("gray"))
 			return Color.gray;
-		else if(color.equalsIgnoreCase("green"))
+		else if (color.equalsIgnoreCase("green"))
 			return Color.green;
-		else if(color.equalsIgnoreCase("lightgray"))
+		else if (color.equalsIgnoreCase("lightgray"))
 			return Color.lightGray;
-		else if(color.equalsIgnoreCase("magenta"))
+		else if (color.equalsIgnoreCase("magenta"))
 			return Color.magenta;
-		else if(color.equalsIgnoreCase("orange"))
+		else if (color.equalsIgnoreCase("orange"))
 			return Color.orange;
-		else if(color.equalsIgnoreCase("pink"))
+		else if (color.equalsIgnoreCase("pink"))
 			return Color.pink;
-		else if(color.equalsIgnoreCase("red"))
+		else if (color.equalsIgnoreCase("red"))
 			return Color.red;
-		else if(color.equalsIgnoreCase("yellow"))
+		else if (color.equalsIgnoreCase("yellow"))
 			return Color.yellow;
 		return Color.white;
 	}
-
 }

@@ -18,3 +18,8 @@ easytake.Update.newUpdate=[§2Easy§6Take§f] A new release of Easytake is now a
 #Upload
 easytake.Upload.clipboard=[§2Easy§6Take§f] Url was copied in your clipboard !
 easytake.Upload.startsend=[§2Easy§6Take§f] Upload in progress ..
+
+#Gui
+easytake.gui.listScreenshot.title=Local Screenshot
+easytake.upload=Upload
+easytake.rename=Rename

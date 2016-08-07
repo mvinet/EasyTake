@@ -17,3 +17,8 @@ easytake.Update.newUpdate=[§2Easy§6Take§f] Une nouvelle version d'EasyTake es
 #Upload
 easytake.Upload.clipboard=[§2Easy§6Take§f] Le liens de votre screen a été copié dans votre presse papier !
 easytake.Upload.startsend=[§2Easy§6Take§f] Upload en cours ..
+
+#Gui
+easytake.gui.listScreenshot.title=Captures d'écran local
+easytake.upload=Upload
+easytake.rename=Renommer

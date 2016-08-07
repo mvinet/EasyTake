@@ -21,6 +21,7 @@ public class Config
 	{
 		config.load();
 
+		config.getString("host", Configuration.CATEGORY_GENERAL, "Uplmg", "Serveur Upload");
 		config.getString("colorFilter", Configuration.CATEGORY_GENERAL, "none", "Votre filtre de couleur");
 		config.getInt("transparency", Configuration.CATEGORY_GENERAL, 0, 0, 100, "La transparence du filtre de couleur");
 		config.getBoolean("saveOnDisk", Configuration.CATEGORY_GENERAL, true, "Sauvegarde l'image en local");
@@ -36,25 +37,29 @@ public class Config
 	{
 		List<IConfigElement> list = new ArrayList<IConfigElement>();
 
+		String host = config.getCategory(Configuration.CATEGORY_GENERAL).get("host").getString();
 		String color = config.getCategory(Configuration.CATEGORY_GENERAL).get("colorFilter").getString();
 		Integer transparency = config.getCategory(Configuration.CATEGORY_GENERAL).get("transparency").getInt();
 		Boolean saveOnDisk = config.getCategory(Configuration.CATEGORY_GENERAL).get("saveOnDisk").getBoolean();
 		Boolean showOverlayEasyTake = config.getCategory(Configuration.CATEGORY_GENERAL).get("showOverlayEasyTake").getBoolean();
 		
+		list.add(new DummyConfigElement("host", host, ConfigGuiType.STRING, "easytake.Config.host", Utils.LISTHOST));
 		list.add(new DummyConfigElement("colorFilter", color, ConfigGuiType.STRING, "easyTake.Config.colorFilter", Utils.LISTECOLOR));
 		list.add(new DummyConfigElement("transparency", transparency, ConfigGuiType.INTEGER, "easyTake.Config.transparency", 0, 100).setCustomListEntryClass(NumberSliderEntry.class));
 		list.add(new DummyConfigElement("saveOnDisk", saveOnDisk, ConfigGuiType.BOOLEAN, "easyTake.Config.saveOnDisk"));
 		list.add(new DummyConfigElement("showOverlayEasyTake", showOverlayEasyTake, ConfigGuiType.BOOLEAN, "easyTake.Config.showOverlayEasyTake"));
 		
+		String hostDefault = config.getCategory(Configuration.CATEGORY_GENERAL).get("host").getDefault();
 		String colorDefault = config.getCategory(Configuration.CATEGORY_GENERAL).get("colorFilter").getDefault();
 		Integer transparencyDefault = Integer.parseInt(config.getCategory(Configuration.CATEGORY_GENERAL).get("transparency").getDefault());
 		Boolean saveOnDiskDefault = Boolean.parseBoolean(config.getCategory(Configuration.CATEGORY_GENERAL).get("saveOnDisk").getDefault());
 		Boolean showOverlayEasyTakeDefault = Boolean.parseBoolean(config.getCategory(Configuration.CATEGORY_GENERAL).get("showOverlayEasyTake").getDefault());
 		
-		list.get(0).set(colorDefault);
-		list.get(1).set(transparencyDefault);
-		list.get(2).set(saveOnDiskDefault);
-		list.get(3).set(showOverlayEasyTakeDefault);
+		list.get(0).set(hostDefault);
+		list.get(1).set(colorDefault);
+		list.get(2).set(transparencyDefault);
+		list.get(3).set(saveOnDiskDefault);
+		list.get(4).set(showOverlayEasyTakeDefault);
 		
 		return list;
 	}
@@ -64,10 +69,11 @@ public class Config
 		ConfigCategory categ;
 		categ = config.getCategory(Configuration.CATEGORY_GENERAL);
 
-		categ.get("colorFilter").set(((CycleValueEntry) entry.get(0)).getCurrentValue());
-		categ.get("transparency").set(((NumberSliderEntry) entry.get(1)).getCurrentValue().toString());
-		categ.get("saveOnDisk").set(((BooleanEntry) entry.get(2)).getCurrentValue().toString());
-		categ.get("showOverlayEasyTake").set(((BooleanEntry) entry.get(3)).getCurrentValue().toString());
+		categ.get("host").set(((CycleValueEntry) entry.get(0)).getCurrentValue());
+		categ.get("colorFilter").set(((CycleValueEntry) entry.get(1)).getCurrentValue());
+		categ.get("transparency").set(((NumberSliderEntry) entry.get(2)).getCurrentValue().toString());
+		categ.get("saveOnDisk").set(((BooleanEntry) entry.get(3)).getCurrentValue().toString());
+		categ.get("showOverlayEasyTake").set(((BooleanEntry) entry.get(4)).getCurrentValue().toString());
 		
 		config.save();
 	}
