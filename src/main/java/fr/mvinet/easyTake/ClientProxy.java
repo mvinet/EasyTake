@@ -52,7 +52,7 @@ public class ClientProxy extends CommonProxy{
 		
 		if(keyListScreen.isPressed())
 		{
-		//	mc.displayGuiScreen(new GuiScreenshotSelection(mc.currentScreen));
+			mc.displayGuiScreen(new GuiScreenshotSelection(mc.currentScreen));
 		}
 	}
 

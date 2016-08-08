@@ -3,6 +3,8 @@ package fr.mvinet.easyTake.gui;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import com.google.common.collect.Lists;
 
 import fr.mvinet.easyTake.screen.Screenshot;
@@ -14,6 +16,7 @@ public class GuiListScreenshotSelection extends GuiListExtended
 {
 	private GuiScreenshotSelection screenshotselect;
     private final List<GuiListScreenshotSelectionEntry> entries = Lists.<GuiListScreenshotSelectionEntry>newArrayList();
+	private int selectedIdx = -1;
     
 	public GuiListScreenshotSelection(GuiScreenshotSelection select, Minecraft mcIn, int widthIn, int heightIn, int topIn, int bottomIn, int slotHeightIn)
 	{
@@ -33,11 +36,31 @@ public class GuiListScreenshotSelection extends GuiListExtended
 	}
 	
 	@Override
-	public IGuiListEntry getListEntry(int index)
+	public GuiListScreenshotSelectionEntry getListEntry(int index)
 	{
-		return entries.get(index);
+		return (GuiListScreenshotSelectionEntry)entries.get(index);
 	}
 
+    /**
+     * Returns true if the element passed in is currently selected
+     */
+    protected boolean isSelected(int slotIndex)
+    {
+        return slotIndex == this.selectedIdx;
+    }
+    
+    public void selectScreenshot(int idx)
+    {
+    	this.selectedIdx = idx;
+    	this.screenshotselect.selectScreenshot(this.getSelectedScreenshot());
+    }
+    
+    @Nullable
+    public GuiListScreenshotSelectionEntry getSelectedScreenshot()
+    {
+        return this.selectedIdx >= 0 && this.selectedIdx < this.getSize() ? this.getListEntry(this.selectedIdx) : null;
+    }
+    
 	@Override
 	protected int getSize()
 	{
@@ -61,6 +84,4 @@ public class GuiListScreenshotSelection extends GuiListExtended
     {
         return super.getListWidth() + 50;
     }
-
-
 }

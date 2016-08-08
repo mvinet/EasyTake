@@ -8,13 +8,11 @@ import net.minecraft.client.Minecraft;
 
 public class Screenshot
 {
-	private Date dateScreen;
-	private String title;
+	private File file;
 	
-	public Screenshot(String title, Date date)
+	public Screenshot(File file)
 	{
-		this.title = title;
-		this.dateScreen = date;
+		this.file = file;
 	}
 	
 	public static ArrayList<Screenshot> getLocalScreenshot()
@@ -22,8 +20,6 @@ public class Screenshot
 		ArrayList<Screenshot> lesScreenshot;
 		File directory;
 		File[] lesFichiers;
-		Screenshot leScreenshot;
-		Date date;
 		
 		lesScreenshot = new ArrayList<Screenshot>();
 		directory = new File(Minecraft.getMinecraft().mcDataDir + "//EasyTake//Screen");
@@ -31,9 +27,7 @@ public class Screenshot
 		
 		for(File leFichier : lesFichiers)
 		{
-			date = new Date(leFichier.lastModified());
-			leScreenshot = new Screenshot(leFichier.getName(), date);
-			lesScreenshot.add(leScreenshot);
+			lesScreenshot.add(new Screenshot(leFichier));
 		}
 		
 		return lesScreenshot;
@@ -41,11 +35,19 @@ public class Screenshot
 	
 	public Date getDate()
 	{
-		return this.dateScreen;
+		Date date = new Date();
+		date.setTime(this.file.lastModified());
+		
+		return date;
 	}
 	
 	public String getTitle()
 	{
-		return this.title;
+		return this.file.getName();
+	}
+	
+	public File getFile()
+	{
+		return this.file;
 	}
 }

@@ -43,8 +43,7 @@ public class EasyTake
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent e)
 	{
-		File directory = new File(Minecraft.getMinecraft().mcDataDir
-				+ "//EasyTake//Screen");
+		File directory = Constante.PATHSCREENSHOT;
 
 		if (!directory.exists())
 		{

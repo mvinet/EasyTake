@@ -22,3 +22,4 @@ easytake.Upload.startsend=[§2Easy§6Take§f] Upload en cours ..
 easytake.gui.listScreenshot.title=Captures d'écran local
 easytake.upload=Upload
 easytake.rename=Renommer
+easytake.selectScreenshot.deleteQuestion=Etes-vous sûr de vouloir supprimer cette capture d'écran ?
