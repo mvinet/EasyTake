@@ -23,3 +23,6 @@ easytake.gui.listScreenshot.title=Captures d'écran local
 easytake.upload=Upload
 easytake.rename=Renommer
 easytake.selectScreenshot.deleteQuestion=Etes-vous sûr de vouloir supprimer cette capture d'écran ?
+easytake.edit.save=Sauvegarder le nouveau nom
+easytake.edit.title=Renommer capture d'écran
+easytake.edit.enterName=Nouveau nom

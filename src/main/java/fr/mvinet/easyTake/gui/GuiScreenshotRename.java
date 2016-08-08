@@ -19,13 +19,13 @@ import fr.mvinet.easyTake.Constante;
 import fr.mvinet.easyTake.screen.Screenshot;
 
 @SideOnly(Side.CLIENT)
-public class GuiScreenshotEdit extends GuiScreen
+public class GuiScreenshotRename extends GuiScreen
 {
     private final GuiScreen lastScreen;
     private GuiTextField nameEdit;
     private final File file;
 
-    public GuiScreenshotEdit(GuiScreen lastScreen, File file)
+    public GuiScreenshotRename(GuiScreen lastScreen, File file)
     {
         this.lastScreen = lastScreen;
         this.file = file;
@@ -48,10 +48,10 @@ public class GuiScreenshotEdit extends GuiScreen
         Keyboard.enableRepeatEvents(true);
         this.buttonList.clear();
         this.buttonList.add(new GuiButton(4, this.width / 2 - 100, this.height / 4 + 48 + 12, I18n.format("selectWorld.edit.openFolder", new Object[0])));
-        this.buttonList.add(new GuiButton(0, this.width / 2 - 100, this.height / 4 + 96 + 12, I18n.format("selectWorld.edit.save", new Object[0])));
+        this.buttonList.add(new GuiButton(0, this.width / 2 - 100, this.height / 4 + 96 + 12, I18n.format("easytake.edit.save", new Object[0])));
         this.buttonList.add(new GuiButton(1, this.width / 2 - 100, this.height / 4 + 120 + 12, I18n.format("gui.cancel", new Object[0])));
 
-        String s = file.getName();
+        String s = file.getName().substring(0, file.getName().length() - 4);
         this.nameEdit = new GuiTextField(2, this.fontRendererObj, this.width / 2 - 100, 60, 200, 20);
         this.nameEdit.setFocused(true);
         this.nameEdit.setText(s);
@@ -78,11 +78,8 @@ public class GuiScreenshotEdit extends GuiScreen
             }
             else if (button.id == 0)
             {
-            	if(this.nameEdit.getText().endsWith(".jpg"))
-            	{
-                	File newFile = new File(Constante.PATHSCREENSHOT + File.separator + this.nameEdit.getText());
-                	this.file.renameTo(newFile);
-            	}
+            	File newFile = new File(Constante.PATHSCREENSHOT + File.separator + this.nameEdit.getText() + ".jpg");
+            	this.file.renameTo(newFile);
                 this.mc.displayGuiScreen(this.lastScreen);
             }
             else if (button.id == 4)
@@ -123,8 +120,8 @@ public class GuiScreenshotEdit extends GuiScreen
     public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
         this.drawDefaultBackground();
-        this.drawCenteredString(this.fontRendererObj, I18n.format("selectWorld.edit.title", new Object[0]), this.width / 2, 20, 16777215);
-        this.drawString(this.fontRendererObj, I18n.format("selectWorld.enterName", new Object[0]), this.width / 2 - 100, 47, 10526880);
+        this.drawCenteredString(this.fontRendererObj, I18n.format("easytake.edit.title", new Object[0]), this.width / 2, 20, 16777215);
+        this.drawString(this.fontRendererObj, I18n.format("easytake.edit.enterName", new Object[0]), this.width / 2 - 100, 47, 10526880);
         this.nameEdit.drawTextBox();
         super.drawScreen(mouseX, mouseY, partialTicks);
     }

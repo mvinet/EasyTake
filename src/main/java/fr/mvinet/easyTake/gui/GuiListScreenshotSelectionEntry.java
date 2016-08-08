@@ -60,9 +60,9 @@ public class GuiListScreenshotSelectionEntry implements IGuiListEntry
         }, I18n.format("easytake.selectScreenshot.deleteQuestion", new Object[0]), "\'" + this.screenshot.getTitle() + "\' " + I18n.format("selectWorld.deleteWarning", new Object[0]), I18n.format("selectWorld.deleteButton", new Object[0]), I18n.format("gui.cancel", new Object[0]), 0));
 	}
 	
-	public void editScreenshot()
+	public void renameScreenshot()
 	{
-		this.client.displayGuiScreen(new GuiScreenshotEdit(this.selection, this.screenshot.getFile()));
+		this.client.displayGuiScreen(new GuiScreenshotRename(this.selection, this.screenshot.getFile()));
 	}
 	
 	@Override

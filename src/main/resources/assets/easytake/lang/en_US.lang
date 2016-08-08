@@ -24,3 +24,6 @@ easytake.gui.listScreenshot.title=Local Screenshot
 easytake.upload=Upload
 easytake.rename=Rename
 easytake.selectScreenshot.deleteQuestion=Are you sure you want to delete this screenshot
+easytake.edit.save=Save name
+easytake.edit.title=Rename Screenshot
+easytake.edit.enterName=New name

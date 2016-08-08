@@ -86,26 +86,22 @@ public class GuiScreenshotSelection extends GuiScreen
 		{
 			this.mc.displayGuiScreen((GuiScreen) null);
 			this.mc.setIngameFocus();
-		} 
+		}
 		else
 		{
 			GuiListScreenshotSelectionEntry glsse = this.selectionList.getSelectedScreenshot();
-			if (button.id == IdButton.DELETE.id)
+			if (glsse != null)
 			{
-				if (glsse != null)
+				if (button.id == IdButton.DELETE.id)
 				{
 					glsse.deleteScreenshot();
 				}
-			}
-			else if(button.id == IdButton.RENAME.id)
-			{
-				if(glsse != null)
+				else if (button.id == IdButton.RENAME.id)
 				{
-					glsse.editScreenshot();
+					glsse.renameScreenshot();
 				}
 			}
 		}
-
 	}
 
 	public void selectScreenshot(@Nullable GuiListScreenshotSelectionEntry entry)
