@@ -36,15 +36,15 @@ public class SendFile extends Thread
 
 	public static void sendPost(File file)
 	{
-		EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
+		EntityPlayerSP player = Minecraft.getMinecraft().player;
 		String host = Config.getConfig().getCategory(Configuration.CATEGORY_GENERAL).get("host").getString();
 		try
 		{
-			player.addChatComponentMessage(new TextComponentTranslation(Constante.UPLOAD_STARTSEND));
+			player.sendMessage(new TextComponentTranslation(Constante.UPLOAD_STARTSEND));
 
 			String url = Utils.getApi(host, file);
 			
-			player.addChatComponentMessage(new TextComponentTranslation(Constante.UPLOAD_CLIPBOARD));
+			player.sendMessage(new TextComponentTranslation(Constante.UPLOAD_CLIPBOARD));
 			
 
 			Utils.Copier(url);
@@ -53,7 +53,7 @@ public class SendFile extends Thread
 			TextComponentString tct;
 			tct = (TextComponentString) new TextComponentString(Constante.PREFIX).appendText(" " + url).setStyle(style);
 
-			player.addChatComponentMessage(tct);
+			player.sendMessage(tct);
 			
 			if(!Config.getConfig().getCategory(Configuration.CATEGORY_GENERAL).get("saveOnDisk").getBoolean())
 			{
@@ -63,7 +63,7 @@ public class SendFile extends Thread
 		}
 		catch (Exception e)
 		{
-			player.addChatComponentMessage(new TextComponentTranslation(Constante.UPLOAD_ERROR));
+			player.sendMessage(new TextComponentTranslation(Constante.UPLOAD_ERROR));
 			e.printStackTrace();
 		}
 	}

@@ -26,7 +26,7 @@ public class PlayerEventHandler {
 	{
 		if(e.getEntity() instanceof EntityPlayerSP)
 		{
-			EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
+			EntityPlayerSP player = Minecraft.getMinecraft().player;
 			try 
 			{
 				URL url = new URL(Constante.UPDATE_URL);
@@ -39,13 +39,13 @@ public class PlayerEventHandler {
 					Style style = new Style().setClickEvent(event);
 					TextComponentTranslation tct = (TextComponentTranslation) new TextComponentTranslation(Constante.UPDATE_WITHURL).setStyle(style);
 
-					player.addChatComponentMessage(tct);
+					player.sendMessage(tct);
 				}
 			} 
 			catch (Exception e2) 
 			{
 				e2.printStackTrace();
-				player.addChatMessage(new TextComponentTranslation(Constante.UPDATE_DEFAULT));
+				player.sendMessage(new TextComponentTranslation(Constante.UPDATE_DEFAULT));
 			}
 		}
 	}
