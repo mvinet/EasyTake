@@ -16,14 +16,33 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
 
-public class ClientProxy extends CommonProxy{
+/**
+ * Client Proxy
+ * 
+ * @author mvinet
+ */
+public class ClientProxy extends CommonProxy {
 
+	/**
+	 * Key for take a screen
+	 */
 	private static KeyBinding keyScreen;
+	
+	/**
+	 * Key for show gui option 
+	 */
 	private static KeyBinding keyGuiOption;
+	
+	/**
+	 * Key for show all the screen
+	 */
 	private static KeyBinding keyListScreen;
 	
-	public ClientProxy()
-	{
+	
+	/**
+	 * Constructor
+	 */
+	public ClientProxy() {
 		FMLCommonHandler.instance().bus().register(this);
 		keyScreen = new KeyBinding("Screen", Keyboard.KEY_U, "EasyTake");
 		keyGuiOption = new KeyBinding("Option", Keyboard.KEY_Y, "EasyTake");
@@ -34,30 +53,30 @@ public class ClientProxy extends CommonProxy{
 		ClientRegistry.registerKeyBinding(keyListScreen);
 	}
 
-
+	/**
+	 * Event for Input Key
+	 * @param event the event
+	 */
 	@SubscribeEvent
-	public void onEvent(KeyInputEvent event)
-	{
+	public void onEvent(KeyInputEvent event) {
 		Minecraft mc = Minecraft.getMinecraft();
-		if(keyScreen.isPressed())
-		{
+		if(keyScreen.isPressed()) {
 			screen();
 		}
 		
-		if(keyGuiOption.isPressed())
-		{
+		if(keyGuiOption.isPressed()) {
 			mc.displayGuiScreen(new GuiConfigEasyTake(mc.currentScreen));
-		//	Minecraft.getMinecraft().displayGuiScreen(new GuiEasyTake());
 		}
 		
-		if(keyListScreen.isPressed())
-		{
+		if(keyListScreen.isPressed()) {
 			mc.displayGuiScreen(new GuiScreenshotSelection(mc.currentScreen));
 		}
 	}
 
-	public void screen()
-	{
+	/**
+	 * Take a screenshot
+	 */
+	public void screen() {
 		BufferedImage image = CameraHelper.takeScreenShot();
 		Frame frame = Frame.getFrameFromBufferedImage(image);
 		FrameWriter.saveFrameAsImage(frame);

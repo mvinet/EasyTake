@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.mvinet.easyTake.Config;
-import fr.mvinet.easyTake.Constante;
+import fr.mvinet.easyTake.Constant;
 import fr.mvinet.easyTake.EasyTake;
 import fr.mvinet.easyTake.Utils;
 import net.minecraft.client.gui.GuiButton;
@@ -18,38 +18,60 @@ import net.minecraftforge.fml.client.config.GuiConfig;
 import net.minecraftforge.fml.client.config.GuiConfigEntries.*;
 import net.minecraftforge.fml.client.config.IConfigElement;
 
-public class GuiConfigEasyTake extends GuiConfig
-{
-	public GuiConfigEasyTake(GuiScreen screen)
-	{
-		super(screen, getConfigElement(), Constante.MODID, false, false, "EasyTake Configuration");
+/**
+ * Config Easy Take Interface
+ * 
+ * @author mvinet
+ */
+public class GuiConfigEasyTake extends GuiConfig {
+
+	/**
+	 * Constructor
+	 * @param screen the screen interface
+	 */
+	public GuiConfigEasyTake(GuiScreen screen) {
+		super(screen, getConfigElement(), Constant.MODID, false, false, "EasyTake Configuration");
 	}
 
-	private static List<IConfigElement> getConfigElement()
-	{
+	/**
+	 * Get the configuration
+	 * @return a list of {@link IConfigElement}
+	 */
+	private static List<IConfigElement> getConfigElement() {
 		return Config.getConfigElement();
 	}
 
+	/**
+	 * Called when the gui is closed
+	 */
 	@Override
-	public void onGuiClosed()
-	{
+	public void onGuiClosed() {
 		super.onGuiClosed();
 
 		Config.saveConfig(this.entryList.listEntries);
 	}
 
-	public void initGui()
-	{
+	/**
+	 * Called when the gui is initialized
+	 */
+	@Override
+	public void initGui() {
 		super.initGui();
 	}
 
-	public void drawScreen(int mouseX, int mouseY, float partialTicks)
-	{
+	/**
+	 * Draw the screen
+	 */
+	@Override
+	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 		super.drawScreen(mouseX, mouseY, partialTicks);
 	}
 
-	public void actionPerformed(GuiButton button)
-	{
+	/**
+	 * Called when button is performed
+	 */
+	@Override
+	public void actionPerformed(GuiButton button) {
 		super.actionPerformed(button);
 	}
 }

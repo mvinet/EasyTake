@@ -1,0 +1,29 @@
+#Config
+easyTake.Config.colorFilter=Color Filter
+easyTake.Config.colorFilter.tooltip=Add uniform color filter
+easyTake.Config.transparency=Opacity
+easyTake.Config.transparency.tooltip=Choose opacity of the color filter
+easyTake.Config.saveOnDisk=Save on disk
+easyTake.Config.saveOnDisk.tooltip=Save the screenshot in the folder EasyTake/Screen/ (in your minecraft folder)
+easyTake.Config.showOverlayEasyTake=Displays favicon of easytake
+easyTake.Config.showOverlayEasyTake.tooltip=Displays or not the logo of easytake on your screenshot
+
+#Error
+easytake.error=Error !
+
+#Update
+easytake.Update.default=[§2Easy§6Take§f] A new release of Easytake is now available!
+easytake.Update.newUpdate=[§2Easy§6Take§f] A new release of Easytake is now available, click here for download!
+
+#Upload
+easytake.Upload.clipboard=[§2Easy§6Take§f] Url was copied in your clipboard !
+easytake.Upload.startsend=[§2Easy§6Take§f] Upload in progress ..
+
+#Gui
+easytake.gui.listScreenshot.title=Local Screenshot
+easytake.upload=Upload
+easytake.rename=Rename
+easytake.selectScreenshot.deleteQuestion=Are you sure you want to delete this screenshot
+easytake.edit.save=Save name
+easytake.edit.title=Rename Screenshot
+easytake.edit.enterName=New name

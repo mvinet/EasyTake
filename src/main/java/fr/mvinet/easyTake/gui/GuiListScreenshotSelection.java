@@ -12,76 +12,102 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiListExtended;
 import net.minecraft.client.gui.GuiListWorldSelectionEntry;
 
-public class GuiListScreenshotSelection extends GuiListExtended
-{
+/**
+ * List Screenshot Selection Interface
+ * 
+ * @author mvinet
+ */
+public class GuiListScreenshotSelection extends GuiListExtended {
+	
+	/**
+	 * Interface for thje screenshot selection
+	 */
 	private GuiScreenshotSelection screenshotselect;
+	
+	/**
+	 * List for screenshots
+	 */
     private final List<GuiListScreenshotSelectionEntry> entries = Lists.<GuiListScreenshotSelectionEntry>newArrayList();
-	private int selectedIdx = -1;
+	
+    /**
+     * Selected index
+     */
+    private int selectedIdx = -1;
     
-	public GuiListScreenshotSelection(GuiScreenshotSelection select, Minecraft mcIn, int widthIn, int heightIn, int topIn, int bottomIn, int slotHeightIn)
-	{
+    /**
+     * Constructor 
+     * @param select the selected screenshot
+     * @param minecraft minecraft
+     * @param width width of the frame
+     * @param height height of the frame
+     * @param top top
+     * @param bottom bottom
+     * @param slotHeight height of the slot
+     */
+	public GuiListScreenshotSelection(GuiScreenshotSelection select, Minecraft minecraft, int width, int height, int top, int bottom, int slotHeight) {
 		//GuiListWorldSelection
-		super(mcIn, widthIn, heightIn, topIn, bottomIn, slotHeightIn);
+		super(minecraft, width, height, top, bottom, slotHeight);
 		this.screenshotselect = select;
 		
 		refreshList();
 	}
 
-	public void refreshList()
-	{
-		for (Screenshot screenshot : Screenshot.getLocalScreenshot())
-        {
+	/**
+	 * Actialize the list
+	 */
+	public void refreshList() {
+		for (Screenshot screenshot : Screenshot.getLocalScreenshot())  {
             this.entries.add(new GuiListScreenshotSelectionEntry(this, screenshot));
         }
 	}
 	
 	@Override
-	public GuiListScreenshotSelectionEntry getListEntry(int index)
-	{
+	public GuiListScreenshotSelectionEntry getListEntry(int index) {
 		return (GuiListScreenshotSelectionEntry)entries.get(index);
 	}
 
-    /**
-     * Returns true if the element passed in is currently selected
-     */
-    protected boolean isSelected(int slotIndex)
-    {
+	@Override
+    protected boolean isSelected(int slotIndex)  {
         return slotIndex == this.selectedIdx;
     }
     
-    public void selectScreenshot(int idx)
-    {
+	/**
+	 * select the screenshot with the index
+	 * @param idx index of the screenshot
+	 */
+    public void selectScreenshot(int idx) {
     	this.selectedIdx = idx;
     	this.screenshotselect.selectScreenshot(this.getSelectedScreenshot());
     }
     
-    @Nullable
-    public GuiListScreenshotSelectionEntry getSelectedScreenshot()
-    {
+    /**
+     * Get the list of the screenshot
+     * @return a {@link GuiListScreenshotSelectionEntry}
+     */
+    public GuiListScreenshotSelectionEntry getSelectedScreenshot() {
         return this.selectedIdx >= 0 && this.selectedIdx < this.getSize() ? this.getListEntry(this.selectedIdx) : null;
     }
     
 	@Override
-	protected int getSize()
-	{
+	protected int getSize() {
 		return entries.size();
 	}
 	
-    public GuiScreenshotSelection getGuiScreenshotSelection()
-    {
+	/**
+	 * Get the Screenshot selected
+	 * @return the {@link GuiScreenshotSelection}
+	 */
+    public GuiScreenshotSelection getGuiScreenshotSelection()  {
         return this.screenshotselect;
     }
     
-    protected int getScrollBarX()
-    {
+    @Override
+    protected int getScrollBarX()  {
         return super.getScrollBarX() + 20;
     }
 
-    /**
-     * Gets the width of the list
-     */
-    public int getListWidth()
-    {
+    @Override
+    public int getListWidth()  {
         return super.getListWidth() + 50;
     }
 }

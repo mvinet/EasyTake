@@ -16,17 +16,40 @@ import net.minecraft.world.storage.WorldSummary;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+/**
+ * List Screenshot Selection Entry Interface
+ * 
+ * @author mvinet
+ */
 @SideOnly(Side.CLIENT)
-public class GuiListScreenshotSelectionEntry implements IGuiListEntry
-{
+public class GuiListScreenshotSelectionEntry implements IGuiListEntry {
+	
+	/**
+	 * Instance of minecraft
+	 */
     private final Minecraft client;
+    
+    /**
+     * The Screenshot selected
+     */
     private final GuiScreenshotSelection selection;
+    
+    /**
+     * The list of the slected screenshot
+     */
     private final GuiListScreenshotSelection containingListSel;
+    
+    /**
+     * The screenshot
+     */
     private final Screenshot screenshot;
     
-    public GuiListScreenshotSelectionEntry(GuiListScreenshotSelection listScreenSelIn, Screenshot screenshot)
-    {
-    	//GuiListWorldSelectionEntry
+    /**
+     * Constructor
+     * @param listScreenSelIn List Screenshot Selection
+     * @param screenshot the screenshot
+     */
+    public GuiListScreenshotSelectionEntry(GuiListScreenshotSelection listScreenSelIn, Screenshot screenshot)  {
 		this.client = Minecraft.getMinecraft();
 		this.containingListSel = listScreenSelIn;
 		this.selection = listScreenSelIn.getGuiScreenshotSelection();
@@ -34,23 +57,13 @@ public class GuiListScreenshotSelectionEntry implements IGuiListEntry
     	
     }
 
-	@Override
-	public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected)
-	{
-		this.client.fontRendererObj.drawString(screenshot.getTitle(), x + 32 + 3, y + 1, 16777215);
-        this.client.fontRendererObj.drawString(screenshot.getDate().toString(), x + 32 + 3, y + this.client.fontRendererObj.FONT_HEIGHT + 3, 8421504);
-        this.client.fontRendererObj.drawString(screenshot.getTitle(), x + 32 + 3, y + (this.client.fontRendererObj.FONT_HEIGHT * 2) + 3, 8421504);
-	}
-
-
-	public void deleteScreenshot()
-	{
-		this.client.displayGuiScreen(new GuiYesNo(new GuiYesNoCallback()
-        {
-            public void confirmClicked(boolean result, int id)
-            {
-                if (result)
-                {
+	/**
+	 * Delete the screenshot
+	 */
+	public void deleteScreenshot() {
+		this.client.displayGuiScreen(new GuiYesNo(new GuiYesNoCallback()  {
+            public void confirmClicked(boolean result, int id) {
+                if (result) {
                 	GuiListScreenshotSelectionEntry.this.screenshot.getFile().delete();
                     GuiListScreenshotSelectionEntry.this.containingListSel.refreshList();
                 }
@@ -60,26 +73,32 @@ public class GuiListScreenshotSelectionEntry implements IGuiListEntry
         }, I18n.format("easytake.selectScreenshot.deleteQuestion", new Object[0]), "\'" + this.screenshot.getTitle() + "\' " + I18n.format("selectWorld.deleteWarning", new Object[0]), I18n.format("selectWorld.deleteButton", new Object[0]), I18n.format("gui.cancel", new Object[0]), 0));
 	}
 	
-	public void renameScreenshot()
-	{
+	/**
+	 * Rename the screenshot
+	 */
+	public void renameScreenshot() {
 		this.client.displayGuiScreen(new GuiScreenshotRename(this.selection, this.screenshot.getFile()));
 	}
 	
 	@Override
-	public boolean mousePressed(int slotIndex, int mouseX, int mouseY, int mouseEvent, int relativeX, int relativeY)
-	{
+	public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected) {
+		this.client.fontRendererObj.drawString(screenshot.getTitle(), x + 32 + 3, y + 1, 16777215);
+        this.client.fontRendererObj.drawString(screenshot.getDate().toString(), x + 32 + 3, y + this.client.fontRendererObj.FONT_HEIGHT + 3, 8421504);
+        this.client.fontRendererObj.drawString(screenshot.getTitle(), x + 32 + 3, y + (this.client.fontRendererObj.FONT_HEIGHT * 2) + 3, 8421504);
+	}
+	
+	@Override
+	public boolean mousePressed(int slotIndex, int mouseX, int mouseY, int mouseEvent, int relativeX, int relativeY) {
 		this.containingListSel.selectScreenshot(slotIndex);
 		return true;
 	}
 
 	@Override
-	public void mouseReleased(int slotIndex, int x, int y, int mouseEvent, int relativeX, int relativeY)
-	{
+	public void mouseReleased(int slotIndex, int x, int y, int mouseEvent, int relativeX, int relativeY) {
 	}
 	
 	@Override
-	public void setSelected(int p_178011_1_, int p_178011_2_, int p_178011_3_)
-	{
+	public void setSelected(int p_178011_1_, int p_178011_2_, int p_178011_3_) {
 	}
 }
 

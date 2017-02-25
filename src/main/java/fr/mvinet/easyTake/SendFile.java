@@ -17,53 +17,65 @@ import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.util.text.event.ClickEvent.Action;
 import net.minecraftforge.common.config.Configuration;
 
-public class SendFile extends Thread
-{
+/**
+ * Send file
+ * 
+ * @author mvinet
+ */
+public class SendFile extends Thread {
 
+	/**
+	 * The file
+	 */
 	private File file;
 
-	public SendFile(String name, File file)
-	{
+	/**
+	 * Constructor
+	 * @param name the name of the file
+	 * @param file the file
+	 */
+	public SendFile(String name, File file) {
 		super(name);
 		this.file = file;
 	}
 
-	public void run()
-	{
-		sendPost(file);
-		this.stop();
+	/**
+	 * When thread run
+	 */
+	@Override
+	public void run() {
+		uploadFile(file);
+		this.interrupt();
 	}
 
-	public static void sendPost(File file)
-	{
+	/**
+	 * Upload a file
+	 * @param file the file to upload
+	 */
+	public static void uploadFile(File file) {
 		EntityPlayerSP player = Minecraft.getMinecraft().player;
 		String host = Config.getConfig().getCategory(Configuration.CATEGORY_GENERAL).get("host").getString();
-		try
-		{
-			player.sendMessage(new TextComponentTranslation(Constante.UPLOAD_STARTSEND));
+		try {
+			player.sendMessage(new TextComponentTranslation(Constant.UPLOAD_STARTSEND));
 
-			String url = Utils.getApi(host, file);
+			String url = Utils.uploadFileAndGetUrl(host, file);
 			
-			player.sendMessage(new TextComponentTranslation(Constante.UPLOAD_CLIPBOARD));
+			player.sendMessage(new TextComponentTranslation(Constant.UPLOAD_CLIPBOARD));
 			
-
-			Utils.Copier(url);
+			Utils.copyToClipboard(url);
 			ClickEvent event = new ClickEvent(Action.OPEN_URL, url);
 			Style style = new Style().setClickEvent(event);
 			TextComponentString tct;
-			tct = (TextComponentString) new TextComponentString(Constante.PREFIX).appendText(" " + url).setStyle(style);
+			tct = (TextComponentString) new TextComponentString(Constant.PREFIX).appendText(" " + url).setStyle(style);
 
 			player.sendMessage(tct);
 			
-			if(!Config.getConfig().getCategory(Configuration.CATEGORY_GENERAL).get("saveOnDisk").getBoolean())
-			{
+			if(!Config.getConfig().getCategory(Configuration.CATEGORY_GENERAL).get("saveOnDisk").getBoolean()) {
 				file.delete();
 			}
 			
-		}
-		catch (Exception e)
-		{
-			player.sendMessage(new TextComponentTranslation(Constante.UPLOAD_ERROR));
+		} catch (Exception e) {
+			player.sendMessage(new TextComponentTranslation(Constant.UPLOAD_ERROR));
 			e.printStackTrace();
 		}
 	}

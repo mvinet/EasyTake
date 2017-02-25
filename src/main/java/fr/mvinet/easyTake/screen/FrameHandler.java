@@ -7,37 +7,44 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
-public class FrameHandler
-{
+/**
+ * Frame Handler
+ * 
+ * @author mvinet
+ */
+public class FrameHandler {
 
-	public static List<Frame> getFrameList()
-	{
+	/**
+	 * List of the {@link Frame}
+	 * @return List of the {@link Frame}
+	 */
+	public static List<Frame> getFrameList() {
 		return new ArrayList<Frame>();
 	}
 
-	// Adds a frame to the main frame list.
-	public static void addFrame(Frame frame)
-	{
+	/**
+	 * Adds a frame to the main frame list.
+	 * @param frame list of the {@link Frame}
+	 */
+	public static void addFrame(Frame frame) {
 		getFrameList().add(frame);
 	}
 
-	// Returns the file the frame is stored in.
-	public static File getFileFromFrame(Frame frame)
-	{
+	/**
+	 * Returns the file the frame is stored in.
+	 * @param frame the {@link Frame}
+	 * @return the {@link File}
+	 */
+	public static File getFileFromFrame(Frame frame) {
 		File returnFile = null;
 
-		try
-		{
-			for (File file : FrameWriter.getOutputFiles())
-			{
-				if (ImageIO.read(file) == frame.getBufferedImage())
-				{
+		try {
+			for (File file : FrameWriter.getOutputFiles()) 	{
+				if (ImageIO.read(file) == frame.getBufferedImage()) {
 					returnFile = file;
 				}
 			}
-		}
-		catch (IOException exception)
-		{
+		} catch (IOException exception) {
 			exception.printStackTrace();
 		}
 

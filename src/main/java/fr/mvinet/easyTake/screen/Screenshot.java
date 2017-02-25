@@ -6,17 +6,31 @@ import java.util.Date;
 
 import net.minecraft.client.Minecraft;
 
-public class Screenshot
-{
+/**
+ * Screenshot
+ * 
+ * @author mvinet
+ */
+public class Screenshot {
+
+	/**
+	 * The file
+	 */
 	private File file;
 	
-	public Screenshot(File file)
-	{
+	/**
+	 * Constructor
+	 * @param file the File
+	 */
+	public Screenshot(File file) {
 		this.file = file;
 	}
-	
-	public static ArrayList<Screenshot> getLocalScreenshot()
-	{
+
+	/**
+	 * Return all the Screenshot saved
+	 * @return a list of {@link Screenshot}
+	 */
+	public static ArrayList<Screenshot> getLocalScreenshot() {
 		ArrayList<Screenshot> lesScreenshot;
 		File directory;
 		File[] lesFichiers;
@@ -25,29 +39,34 @@ public class Screenshot
 		directory = new File(Minecraft.getMinecraft().mcDataDir + "//EasyTake//Screen");
 		lesFichiers = directory.listFiles();
 		
-		for(File leFichier : lesFichiers)
-		{
+		for(File leFichier : lesFichiers) {
 			lesScreenshot.add(new Screenshot(leFichier));
 		}
 		
 		return lesScreenshot;
 	}
 	
-	public Date getDate()
-	{
+	/**
+	 * @return the {@link Date}
+	 */
+	public Date getDate() {
 		Date date = new Date();
 		date.setTime(this.file.lastModified());
 		
 		return date;
 	}
 	
-	public String getTitle()
-	{
+	/**
+	 * @return the Title
+	 */
+	public String getTitle() {
 		return this.file.getName();
 	}
 	
-	public File getFile()
-	{
+	/**
+	 * @return the {@link File}
+	 */
+	public File getFile() {
 		return this.file;
 	}
 }

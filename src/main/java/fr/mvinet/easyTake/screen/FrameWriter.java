@@ -18,46 +18,69 @@ import fr.mvinet.easyTake.EasyTake;
 import fr.mvinet.easyTake.SendFile;
 import fr.mvinet.easyTake.Utils;
 
-public class FrameWriter
-{
+/**
+ * Frame Writer
+ * 
+ * @author mvinet
+ */
+public class FrameWriter {
 
+	/**
+	 * The output file
+	 */
 	private static File outputFile;
+	
+	/**
+	 * The writerID
+	 */
 	public int writerID;
 
-	public FrameWriter(int id)
-	{
+	/**
+	 * Constructor
+	 * @param id the writer id
+	 */
+	public FrameWriter(int id) {
 		writerID = id;
 	}
 
-	// Sets the output file of the images.
-	public static void setOutput(File file)
-	{
+	/**
+	 * Sets the output file of the images.
+	 * @param file the File
+	 */
+	public static void setOutput(File file) {
 		outputFile = file;
 	}
 
-	// Sets the output file of the images.
-	public static void setOutput(String location)
-	{
+	/**
+	 * Sets the output file of the images.
+	 * @param location the location of the file
+	 */
+	public static void setOutput(String location) {
 		outputFile = new File(location);
 	}
 
-	// Returns the output file, used for saving images.
-	public static File getOutput()
-	{
+	/**
+	 * Returns the output file, used for saving images.
+	 * @return the {@link File}
+	 */
+	public static File getOutput() {
 		return outputFile;
 	}
 
-	// Returns the files inside of the output file, used for loading in images.
-	public static List<File> getOutputFiles()
-	{
+	/**
+	 * Returns the files inside of the output file, used for loading in images.
+	 * @return a list of {@link File}
+	 */
+	public static List<File> getOutputFiles() {
 		return Arrays.asList(outputFile.listFiles());
 	}
 
-	// Saves the frame to the output file.
-	public static void saveFrameAsImage(Frame frame)
-	{
-		try
-		{
+	/**
+	 * Saves the frame to the output file.
+	 * @param frame the frame to save
+	 */
+	public static void saveFrameAsImage(Frame frame) {
+		try {
 			// Filter.overlayFrameFromColor(frame, Color.RED, 0.4f);
 			final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss");
 			File output = new File(outputFile, "screenshot_" + dateFormat.format(new Date()).toString() + ".jpg");
@@ -68,29 +91,22 @@ public class FrameWriter
 			
 			System.out.println(color + " " + transparency);
 			
-			if (!color.equalsIgnoreCase("none"))
-			{
+			if (!color.equalsIgnoreCase("none")) {
 				Filter.overlayFrameFromColor(frame, Utils.getColor(color), transparency / 100F);
 			}
 			
 			ImageIO.write(frame.getBufferedImage(), "jpg", output);
 
-			if(showOverlay)
-			{
+			if(showOverlay) {
 				Filter.overlayFrameFromPicture(output, "Logo_EasyTake.png");
 			}
 						
 			SendFile sfile = new SendFile("sendfile", output);
 			sfile.start();
-			
 
-		}
-		catch (IOException exception)
-		{
+		} catch (IOException exception) {
 			exception.printStackTrace();
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

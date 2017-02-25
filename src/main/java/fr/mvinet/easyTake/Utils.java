@@ -52,29 +52,39 @@ import org.xml.sax.SAXException;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import akka.dispatch.sysmsg.SystemMessageList;
 import apache.MultipartEntity;
 import apache.content.ContentBody;
 import apache.content.FileBody;
 import apache.content.StringBody;
 
-public class Utils
-{
+/**
+ * Utils
+ * 
+ * @author mvinet
+ */
+public class Utils {
+
+	/**
+	 * List of the colors
+	 */
 	public static final String[] LISTECOLOR = { "none", "black", "blue", "cyan", "darkgray", "gray", "green",
 			"lightgray", "magenta", "orange", "pink", "red", "yellow", "white" };
-	public static final String[] LISTHOST = {"Uplmg", "Imgur"};
+
+	/**
+	 * List of the hosts
+	 */
+	public static final String[] LISTHOST = {"Imgur"};
 
 	/**
 	 * Return the url of the uploaded file
-	 * @param host the host, two choice : uplmg or imgur
+	 * @param host the host
 	 * @param file the file to upload
 	 * @return the url of the file
 	 * @throws ClientProtocolException
 	 * @throws IOException
 	 */
 	@SuppressWarnings("resource")
-	public static String getApi(String host, File file) throws ClientProtocolException, IOException
-	{
+	public static String uploadFileAndGetUrl(String host, File file) throws ClientProtocolException, IOException {
 		String res;
 
 		HttpPost post;
@@ -85,56 +95,32 @@ public class Utils
 		MultipartEntity mpEntity;
 		ContentBody cbFile;
 
-		if(host.equalsIgnoreCase("uplmg"))
-		{
-			post = new HttpPost("http://uplmg.com/file/upload");
-		}
-		else
-		{
-			post = new HttpPost("https://api.imgur.com/3/image");
-			post.setHeader("Authorization", "Client-ID c37f45c23120776");
-		}
+		post = new HttpPost("https://api.imgur.com/3/upload");
+		post.setHeader("Authorization", "Client-ID e6de7d8d5a3bd1c");
 
 		httpclient = new DefaultHttpClient();
 		httpclient.getParams().setParameter(CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
 
 		mpEntity = new MultipartEntity();
 		cbFile = new FileBody(file, "image/jpeg");
-		
-		if(host.equalsIgnoreCase("uplmg"))
-		{
-			mpEntity.addPart("file", cbFile);
-			mpEntity.addPart("senderid", new StringBody("EasyTake " + Constante.VERSION));
-		}
-		else
-		{
-			mpEntity.addPart("image", cbFile);
-		}
-		
+
+		mpEntity.addPart("image", cbFile);
+
 		post.setEntity(mpEntity);
 		response = httpclient.execute(post);
 		resEntity = response.getEntity();
 
 		res = null;
-		
-		if (resEntity != null)
-		{
-			if(host.equalsIgnoreCase("uplmg"))
-			{
-				res = EntityUtils.toString(resEntity);
-			}
-			else
-			{
-				String jsonString = EntityUtils.toString(resEntity);
-				JsonParser parser = new JsonParser();
-				JsonObject result = (JsonObject) parser.parse(jsonString);
-				JsonObject data = result.get("data").getAsJsonObject();
 
-				res = data.get("link").getAsString();
-			}
+		if (resEntity != null) {
+			String jsonString = EntityUtils.toString(resEntity);
+			JsonParser parser = new JsonParser();
+			JsonObject result = (JsonObject) parser.parse(jsonString);
+			JsonObject data = result.get("data").getAsJsonObject();
+
+			res = data.get("link").getAsString();
 		}
-		if (resEntity != null)
-		{
+		if (resEntity != null) {
 			resEntity.consumeContent();
 		}
 		httpclient.getConnectionManager().shutdown();
@@ -142,18 +128,22 @@ public class Utils
 		return res;
 	}
 
-	public static void Copier(String text)
-	{
+	/**
+	 * Copy a text in the clipboard
+	 * @param text the text to copy
+	 */
+	public static void copyToClipboard(String text) {
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 		Clipboard clip = toolkit.getSystemClipboard();
 		clip.setContents(new StringSelection(text), null);
 	}
 
 	/**
-	 * return the Color of the parametre
+	 * Get the good color with a string
+	 * @param color the string color
+	 * @return the {@link Color}
 	 */
-	public static Color getColor(String color)
-	{
+	public static Color getColor(String color) {
 		if (color.equalsIgnoreCase("black"))
 			return Color.black;
 		else if (color.equalsIgnoreCase("blue"))
