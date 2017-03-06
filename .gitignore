@@ -20,3 +20,16 @@ build
 # other
 eclipse
 run
+/build.gradle
+/CREDITS-fml.txt
+/forge-1.11.2-13.20.0.2251-changelog.txt
+/forge-1.11.2-13.20.0.2251-mdk.zip
+/gradle.properties
+/gradlew
+/gradlew.bat
+/LICENSE-new.txt
+/MinecraftForge-Credits.txt
+/Paulscode IBXM Library License.txt
+/Paulscode SoundSystem CodecIBXM License.txt
+/README.txt
+/src/main/java/fr/mvinet/easyTake/social/ConsumerKey.java
