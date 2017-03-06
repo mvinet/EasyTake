@@ -15,7 +15,7 @@ import org.lwjgl.Sys;
 import net.minecraftforge.common.config.Configuration;
 import fr.mvinet.easyTake.Config;
 import fr.mvinet.easyTake.EasyTake;
-import fr.mvinet.easyTake.SendFile;
+import fr.mvinet.easyTake.UploadFile;
 import fr.mvinet.easyTake.Utils;
 
 /**
@@ -29,7 +29,7 @@ public class FrameWriter {
 	 * The output file
 	 */
 	private static File outputFile;
-	
+
 	/**
 	 * The writerID
 	 */
@@ -88,20 +88,20 @@ public class FrameWriter {
 			String color = Config.getConfig().getCategory(Configuration.CATEGORY_GENERAL).get("colorFilter").getString();
 			Float transparency = (float)Config.getConfig().getCategory(Configuration.CATEGORY_GENERAL).get("transparency").getDouble();;
 			Boolean showOverlay = Config.getConfig().getCategory(Configuration.CATEGORY_GENERAL).get("showOverlayEasyTake").getBoolean();
-			
+
 			System.out.println(color + " " + transparency);
-			
+
 			if (!color.equalsIgnoreCase("none")) {
 				Filter.overlayFrameFromColor(frame, Utils.getColor(color), transparency / 100F);
 			}
-			
+
 			ImageIO.write(frame.getBufferedImage(), "jpg", output);
 
 			if(showOverlay) {
 				Filter.overlayFrameFromPicture(output, "Logo_EasyTake.png");
 			}
-						
-			SendFile sfile = new SendFile("sendfile", output);
+
+			UploadFile sfile = new UploadFile(output);
 			sfile.start();
 
 		} catch (IOException exception) {

@@ -8,7 +8,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -18,6 +20,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicHeader;
 import org.apache.http.params.CoreProtocolPNames;
 import org.apache.http.util.EntityUtils;
 
@@ -41,6 +44,7 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.util.text.event.ClickEvent.Action;
+import net.minecraftforge.common.config.Configuration;
 
 import org.apache.http.client.methods.HttpPost;
 import org.w3c.dom.Document;
@@ -71,11 +75,6 @@ public class Utils {
 			"lightgray", "magenta", "orange", "pink", "red", "yellow", "white" };
 
 	/**
-	 * List of the hosts
-	 */
-	public static final String[] LISTHOST = {"Imgur"};
-
-	/**
 	 * Return the url of the uploaded file
 	 * @param host the host
 	 * @param file the file to upload
@@ -84,19 +83,22 @@ public class Utils {
 	 * @throws IOException
 	 */
 	@SuppressWarnings("resource")
-	public static String uploadFileAndGetUrl(String host, File file) throws ClientProtocolException, IOException {
+	public static String uploadFileAndGetUrl(File file) throws ClientProtocolException, IOException {
+		Uploader currentUploader = getCurrentUploader();
+		
 		String res;
 
 		HttpPost post;
 		HttpClient httpclient;
 		HttpResponse response;
 		HttpEntity resEntity;
-
 		MultipartEntity mpEntity;
 		ContentBody cbFile;
 
-		post = new HttpPost("https://api.imgur.com/3/upload");
-		post.setHeader("Authorization", "Client-ID e6de7d8d5a3bd1c");
+		post = new HttpPost(currentUploader.getPathUpload());
+		for(BasicHeader basicHeader : currentUploader.getHeader()) {
+			post.setHeader(basicHeader);
+		}
 
 		httpclient = new DefaultHttpClient();
 		httpclient.getParams().setParameter(CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
@@ -128,6 +130,24 @@ public class Utils {
 		return res;
 	}
 
+	/**
+	 * Return the current uploader
+	 * @return {@link Uploader}
+	 */
+	public static Uploader getCurrentUploader() {
+		List<Uploader> uploader = EasyTake.getInstance().getUploader();
+		String currentHost = Config.getConfig().getCategory(Configuration.CATEGORY_GENERAL).get("host").getString();
+
+		try {
+			return uploader.stream().filter(u -> u.getName().equals(currentHost)).collect(Collectors.toList()).get(0);
+		} catch(IndexOutOfBoundsException ex) {
+			System.err.println("Uploader Not found!");
+			ex.printStackTrace();
+		}
+		
+		return null;
+	}
+	
 	/**
 	 * Copy a text in the clipboard
 	 * @param text the text to copy

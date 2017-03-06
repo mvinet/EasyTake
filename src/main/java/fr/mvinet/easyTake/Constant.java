@@ -45,7 +45,7 @@ public class Constant {
 	/**
 	 * Url for the update
 	 */
-	public static final String UPDATE_URL = "http://dev.mvinet.fr/EasyTake/version.txt";
+	public static final String UPDATE_URL = "http://files.mvinet.fr/EasyTake/version.txt";
 	
 	/**
 	 * Url for the download

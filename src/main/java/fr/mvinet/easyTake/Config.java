@@ -1,7 +1,9 @@
 package fr.mvinet.easyTake;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import net.minecraftforge.common.config.ConfigCategory;
 import net.minecraftforge.common.config.Configuration;
@@ -31,7 +33,7 @@ public class Config {
 	public static void synConfig() {
 		config.load();
 
-		config.getString("host", Configuration.CATEGORY_GENERAL, "Uplmg", "Serveur Upload");
+		config.getString("host", Configuration.CATEGORY_GENERAL, "Imgur", "Serveur Upload");
 		config.getString("colorFilter", Configuration.CATEGORY_GENERAL, "none", "Votre filtre de couleur");
 		config.getInt("transparency", Configuration.CATEGORY_GENERAL, 0, 0, 100, "La transparence du filtre de couleur");
 		config.getBoolean("saveOnDisk", Configuration.CATEGORY_GENERAL, true, "Sauvegarde l'image en local");
@@ -49,6 +51,10 @@ public class Config {
 	public static List<IConfigElement> getConfigElement() {
 		List<IConfigElement> list = new ArrayList<IConfigElement>();
 
+
+		List<String> listHost = EasyTake.getInstance().getUploader().stream().map(h -> h.getName()).collect(Collectors.toList());
+		String[] arrayHost = Arrays.copyOf(listHost.toArray(), listHost.toArray().length, String[].class);
+		
 		//Get Actual value
 		String host = config.getCategory(Configuration.CATEGORY_GENERAL).get("host").getString();
 		String color = config.getCategory(Configuration.CATEGORY_GENERAL).get("colorFilter").getString();
@@ -57,7 +63,7 @@ public class Config {
 		Boolean showOverlayEasyTake = config.getCategory(Configuration.CATEGORY_GENERAL).get("showOverlayEasyTake").getBoolean();
 		
 		///Add in List
-		list.add(new DummyConfigElement("host", host, ConfigGuiType.STRING, "easytake.Config.host", Utils.LISTHOST));
+		list.add(new DummyConfigElement("host", host, ConfigGuiType.STRING, "easytake.Config.host", arrayHost));
 		list.add(new DummyConfigElement("colorFilter", color, ConfigGuiType.STRING, "easyTake.Config.colorFilter", Utils.LISTECOLOR));
 		list.add(new DummyConfigElement("transparency", transparency, ConfigGuiType.INTEGER, "easyTake.Config.transparency", 0, 100).setCustomListEntryClass(NumberSliderEntry.class));
 		list.add(new DummyConfigElement("saveOnDisk", saveOnDisk, ConfigGuiType.BOOLEAN, "easyTake.Config.saveOnDisk"));

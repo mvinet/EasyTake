@@ -22,7 +22,7 @@ import net.minecraftforge.common.config.Configuration;
  * 
  * @author mvinet
  */
-public class SendFile extends Thread {
+public class UploadFile extends Thread {
 
 	/**
 	 * The file
@@ -34,8 +34,8 @@ public class SendFile extends Thread {
 	 * @param name the name of the file
 	 * @param file the file
 	 */
-	public SendFile(String name, File file) {
-		super(name);
+	public UploadFile(File file) {
+		super("sendFile");
 		this.file = file;
 	}
 
@@ -52,13 +52,12 @@ public class SendFile extends Thread {
 	 * Upload a file
 	 * @param file the file to upload
 	 */
-	public static void uploadFile(File file) {
+	private static void uploadFile(File file) {
 		EntityPlayerSP player = Minecraft.getMinecraft().player;
-		String host = Config.getConfig().getCategory(Configuration.CATEGORY_GENERAL).get("host").getString();
 		try {
 			player.sendMessage(new TextComponentTranslation(Constant.UPLOAD_STARTSEND));
 
-			String url = Utils.uploadFileAndGetUrl(host, file);
+			String url = Utils.uploadFileAndGetUrl(file);
 			
 			player.sendMessage(new TextComponentTranslation(Constant.UPLOAD_CLIPBOARD));
 			

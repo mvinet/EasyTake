@@ -1,5 +1,13 @@
 package fr.mvinet.easyTake;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.http.message.BasicHeader;
+
+import apache.Header;
+import apache.MinimalField;
+
 import java.io.File;
 
 import net.minecraft.block.Block;
@@ -35,7 +43,7 @@ public class EasyTake {
 	 * The instance of the mod
 	 */
 	@Instance(Constant.MODID)
-	public static EasyTake instance;
+	private static EasyTake instance;
 
 	/**
 	 * The proxy
@@ -44,11 +52,17 @@ public class EasyTake {
 	public static CommonProxy proxy;
 	
 	/**
+	 * List of uploader 
+	 */
+	private List<Uploader> uploader;
+	
+	/**
 	 * The pre init of the mod
 	 * @param event the event of the pre-initialization
 	 */
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
+		initUploader();
 		File directory = Constant.PATHSCREENSHOT;
 
 		if (!directory.exists()) {
@@ -57,6 +71,20 @@ public class EasyTake {
 
 		Config.setConfig(new Configuration(event.getSuggestedConfigurationFile()));
 		Config.synConfig();
+	}
+	
+	/**
+	* Initialize the uploader
+	 */
+	private void initUploader() {
+		uploader = new ArrayList<>();
+		
+		//Setup Imgur
+		Uploader upImgur = new Uploader("Imgur");
+		upImgur.setHost("https://imgur.com");
+		upImgur.setPathUpload("https://api.imgur.com/3/upload");
+		upImgur.getHeader().add(new BasicHeader("Authorization", "Client-ID e6de7d8d5a3bd1c"));
+		uploader.add(upImgur);
 	}
 
 	/**
@@ -71,7 +99,7 @@ public class EasyTake {
 	}
 	
 	/**
-	 * Called when the config is changed
+	 * Called when config is changed
 	 * @param event the event
 	 */
 	@SubscribeEvent
@@ -79,5 +107,19 @@ public class EasyTake {
 		if(event.getModID().equals(Constant.MODID)) {
 			Config.getConfig().save();
 		}
+	}
+	
+	/**
+	 * @return the instance
+	 */
+	public static EasyTake getInstance() {
+		return instance;
+	}
+	
+	/**
+	 * @return the uploader
+	 */
+	public List<Uploader> getUploader() {
+		return uploader;
 	}
 }
